@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <Task Name="PlcTask" Id="{c23cc61e-31ab-492a-9b97-385a77fb4e42}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>20000</CycleTime>
+    <Priority>20</Priority>
+    <PouCall>
+      <Name>Get_Power</Name>
+    </PouCall>
+    <TaskFBGuid>{95fddd63-a0db-45f7-a5a2-6f2a1ec8d060}</TaskFBGuid>
+    <Fb_init>{e66a9874-c51b-4d78-87bf-8ad3b4385ad3}</Fb_init>
+    <Fb_exit>{5a226c48-4bec-4def-816b-343a1f51525b}</Fb_exit>
+    <CycleUpdate>{5d621574-d2d6-449e-9276-e251d9d08e5c}</CycleUpdate>
+    <PostCycleUpdate>{1fef11de-8b77-42c2-8d50-97e63c8fcff3}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

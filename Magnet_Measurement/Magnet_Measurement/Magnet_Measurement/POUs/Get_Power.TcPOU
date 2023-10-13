@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Get_Power" Id="{1025fbe5-1567-453c-9968-b618e325114d}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Get_Power
+VAR
+	voltage_effective : REAL;
+	voltage_frequency : REAL;
+	current_effective : REAL;
+	current_frequency : REAL;
+	power : REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Convert Data 
+
+voltage_effective := INT_TO_REAL(gvl.gl_voltage_effective_raw)/65535*20; // Measured with an 
+voltage_frequency := 1/(UINT_TO_REAL(gvl.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+current_effective := INT_TO_REAL(gvl.gl_current_effective_raw)/65535*20; // Measured with an 
+current_frequency := 1/(UINT_TO_REAL(gvl.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+// Calculate Power 
+
+power := voltage_effective * current_effective;
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="Get_Power">
+      <LineId Id="2" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="18" Count="1" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="20" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

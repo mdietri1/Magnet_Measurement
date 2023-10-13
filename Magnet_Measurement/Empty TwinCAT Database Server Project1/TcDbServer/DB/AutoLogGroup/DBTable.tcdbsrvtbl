@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Table>
+  <ID>1</ID>
+  <Name>DBTable</Name>
+  <TableName>Magent</TableName>
+  <FailOverTableName />
+  <TableMode>CUSTOM</TableMode>
+  <AdditionalSettings />
+  <Columns>
+    <Column>
+      <Name>Power</Name>
+      <Type>Float</Type>
+      <Mode>MAPPED</Mode>
+      <MappedSymbolID>1</MappedSymbolID>
+    </Column>
+  </Columns>
+</Table>
