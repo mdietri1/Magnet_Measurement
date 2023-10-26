@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{a28f16db-f4c5-4540-8911-8ed4c3f7649e}</ProjectGuid>
     <AssemblyName>Empty TwinCAT Database Server Project2</AssemblyName>
-    <Name>Empty TwinCAT Database Server Project2</Name>
+    <Name>SQlite_DB</Name>
     <RootNamespace>Empty TwinCAT Database Server Project2</RootNamespace>
   </PropertyGroup>
   <ItemGroup>

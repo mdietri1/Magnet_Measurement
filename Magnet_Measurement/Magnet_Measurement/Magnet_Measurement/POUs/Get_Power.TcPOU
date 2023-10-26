@@ -3,11 +3,17 @@
   <POU Name="Get_Power" Id="{1025fbe5-1567-453c-9968-b618e325114d}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM Get_Power
 VAR
+	{ attribute 'no_init'}
 	voltage_effective : REAL;
 	voltage_frequency : REAL;
 	current_effective : REAL;
 	current_frequency : REAL;
 	power : REAL;
+	start_log : BOOL := FALSE;
+	stop_log : BOOL := FALSE;
+	fb_Start_Log : FB_PLCDBAutoLogEvt (sNetID:='', tTimeout := T#5S);
+	fb_stoptimer : TOF();
+	captured_time : TIME;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -23,7 +29,15 @@ current_frequency := 1/(UINT_TO_REAL(gvl.gl_current_periode_raw)/1000); //conver
 
 power := voltage_effective * current_effective;
 
-]]></ST>
+IF (start_log = TRUE) THEN
+	fb_Start_Log.Start();
+	start_log := FALSE;
+END_IF
+captured_time := fb_stoptimer.ET;
+IF (stop_log = TRUE) THEN
+	fb_Start_Log.Stop();
+	stop_log := FALSE;
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="Get_Power">
       <LineId Id="2" Count="0" />
@@ -36,8 +50,16 @@ power := voltage_effective * current_effective;
       <LineId Id="27" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="30" Count="0" />
+      <LineId Id="42" Count="0" />
       <LineId Id="22" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="48" Count="0" />
       <LineId Id="20" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="50" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
