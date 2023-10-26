@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<SymbolList>
+  <ID>1</ID>
+  <Name>Symbols</Name>
+  <Symbols>
+    <Symbol>
+      <ID>1</ID>
+      <Name>Get_Power.power</Name>
+      <AllocationName>power</AllocationName>
+      <DataType>REAL</DataType>
+      <BitSize>32</BitSize>
+      <IndexGroup>16448</IndexGroup>
+      <IndexOffset>385016</IndexOffset>
+    </Symbol>
+    <Symbol>
+      <ID>2</ID>
+      <Name>GVL.gl_current_effective_raw</Name>
+      <AllocationName>gl_current_effective_raw</AllocationName>
+      <DataType>INT</DataType>
+      <BitSize>16</BitSize>
+      <IndexGroup>61472</IndexGroup>
+      <IndexOffset>385024</IndexOffset>
+    </Symbol>
+  </Symbols>
+</SymbolList>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8a848c09-d857-41c9-9c52-a581d03f56e7}</ProjectGuid>
-    <AssemblyName>Empty TwinCAT Database Server Project1</AssemblyName>
-    <Name>Empty TwinCAT Database Server Project1</Name>
-    <RootNamespace>Empty TwinCAT Database Server Project1</RootNamespace>
+    <ProjectGuid>{a28f16db-f4c5-4540-8911-8ed4c3f7649e}</ProjectGuid>
+    <AssemblyName>Empty TwinCAT Database Server Project2</AssemblyName>
+    <Name>Empty TwinCAT Database Server Project2</Name>
+    <RootNamespace>Empty TwinCAT Database Server Project2</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="TcDbServer.tcdbsrv">

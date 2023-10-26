@@ -2,6 +2,11 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.35">
 	<Project ProjectGUID="{F7DE9032-B3F0-4387-BF11-4FF3C2665775}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
+			<Licenses>
+				<Target>
+					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
+				</Target>
+			</Licenses>
 			<Tasks>
 				<Task Id="3" Priority="20" CycleTime="200000" AmsPort="350" AdtTasks="true">
 					<Name>PlcTask</Name>
@@ -10,7 +15,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{36F01E52-3611-4757-8663-DBE501F075DD}" Name="Magnet_Measurement" PrjFilePath="Magnet_Measurement\Magnet_Measurement.plcproj" TmcFilePath="Magnet_Measurement\Magnet_Measurement.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{DCC97C68-3B5A-4431-FD91-ECF2F4C4AD43}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{DCC97C68-3B5A-4431-FD91-ECF2F4C4AD43}">
 					<Name>Magnet_Measurement Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">

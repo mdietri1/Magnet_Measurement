@@ -4,8 +4,8 @@
   <Name>AutoLogGroup</Name>
   <WriteDirection>DeviceAsSource</WriteDirection>
   <WriteMode>APPEND</WriteMode>
-  <StartMode>AutoStart</StartMode>
-  <LogMode>onChange</LogMode>
+  <StartMode>Manual</StartMode>
+  <LogMode>cyclic</LogMode>
   <RingBuffParameter>0</RingBuffParameter>
   <RingBuffParameterUnit>Seconds</RingBuffParameterUnit>
   <CycleTime>500</CycleTime>

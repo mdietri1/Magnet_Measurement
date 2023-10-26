@@ -2,16 +2,22 @@
 <Table>
   <ID>1</ID>
   <Name>DBTable</Name>
-  <TableName>Magent</TableName>
+  <TableName>Magnet</TableName>
   <FailOverTableName />
   <TableMode>CUSTOM</TableMode>
   <AdditionalSettings />
   <Columns>
     <Column>
-      <Name>Power</Name>
-      <Type>Float</Type>
+      <Name>power</Name>
+      <Type>Real</Type>
       <Mode>MAPPED</Mode>
       <MappedSymbolID>1</MappedSymbolID>
+    </Column>
+    <Column>
+      <Name>test</Name>
+      <Type>SmallInt</Type>
+      <Mode>MAPPED</Mode>
+      <MappedSymbolID>2</MappedSymbolID>
     </Column>
   </Columns>
 </Table>
