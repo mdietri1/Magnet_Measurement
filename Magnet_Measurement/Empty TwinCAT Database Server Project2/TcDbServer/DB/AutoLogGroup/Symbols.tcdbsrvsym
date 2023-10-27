@@ -21,5 +21,14 @@
       <IndexGroup>61472</IndexGroup>
       <IndexOffset>385024</IndexOffset>
     </Symbol>
+    <Symbol>
+      <ID>4</ID>
+      <Name>Get_Power.timestamp</Name>
+      <AllocationName>timestamp</AllocationName>
+      <DataType>REAL</DataType>
+      <BitSize>32</BitSize>
+      <IndexGroup>16448</IndexGroup>
+      <IndexOffset>585012</IndexOffset>
+    </Symbol>
   </Symbols>
 </SymbolList>

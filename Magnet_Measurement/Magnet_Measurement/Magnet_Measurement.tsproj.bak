@@ -2,6 +2,9 @@
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.35">
 	<Project ProjectGUID="{F7DE9032-B3F0-4387-BF11-4FF3C2665775}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
+			<Settings>
+				<IoIdleTask CycleTime="200000"/>
+			</Settings>
 			<Licenses>
 				<Target>
 					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
@@ -15,26 +18,26 @@
 		</System>
 		<Plc>
 			<Project GUID="{36F01E52-3611-4757-8663-DBE501F075DD}" Name="Magnet_Measurement" PrjFilePath="Magnet_Measurement\Magnet_Measurement.plcproj" TmcFilePath="Magnet_Measurement\Magnet_Measurement.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{54067E48-07C8-91A5-0C60-636F9BB39081}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{DFA74DF3-51A8-F8B0-307F-2AFBD0AE4A60}">
 					<Name>Magnet_Measurement Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>GVL.gl_voltage_effective_raw</Name>
+							<Name>GVL_IO.gl_voltage_effective_raw</Name>
 							<Comment><![CDATA[ Raw data read every cycle]]></Comment>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>GVL.gl_voltage_periode_raw</Name>
+							<Name>GVL_IO.gl_voltage_periode_raw</Name>
 							<Type>UINT</Type>
 						</Var>
 						<Var>
-							<Name>GVL.gl_current_effective_raw</Name>
+							<Name>GVL_IO.gl_current_effective_raw</Name>
 							<Type>INT</Type>
 						</Var>
 						<Var>
-							<Name>GVL.gl_current_periode_raw</Name>
+							<Name>GVL_IO.gl_current_periode_raw</Name>
 							<Type>UINT</Type>
 						</Var>
 					</Vars>

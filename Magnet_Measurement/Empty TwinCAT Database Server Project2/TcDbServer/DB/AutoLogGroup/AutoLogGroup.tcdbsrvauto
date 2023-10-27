@@ -3,14 +3,14 @@
   <ID>1</ID>
   <Name>AutoLogGroup</Name>
   <WriteDirection>DeviceAsSource</WriteDirection>
-  <WriteMode>RINGBUFFER_TIME</WriteMode>
+  <WriteMode>APPEND</WriteMode>
   <StartMode>Manual</StartMode>
   <LogMode>cyclic</LogMode>
-  <RingBuffParameter>1</RingBuffParameter>
+  <RingBuffParameter>0</RingBuffParameter>
   <RingBuffParameterUnit>Seconds</RingBuffParameterUnit>
-  <CycleTime>20</CycleTime>
+  <CycleTime>40</CycleTime>
   <DBID>1</DBID>
-  <DBTableID>1</DBTableID>
+  <DBTableID>0</DBTableID>
   <FailOverDBTableID>0</FailOverDBTableID>
   <ADSDevID>1</ADSDevID>
   <SymbolListID>1</SymbolListID>

@@ -19,5 +19,11 @@
       <Mode>MAPPED</Mode>
       <MappedSymbolID>2</MappedSymbolID>
     </Column>
+    <Column>
+      <Name />
+      <Type>DateTime</Type>
+      <Mode>TIMESTAMP</Mode>
+      <MappedSymbolID>0</MappedSymbolID>
+    </Column>
   </Columns>
 </Table>

@@ -12,54 +12,151 @@ VAR
 	start_log : BOOL := FALSE;
 	stop_log : BOOL := FALSE;
 	fb_Start_Log : FB_PLCDBAutoLogEvt (sNetID:='', tTimeout := T#5S);
-	fb_stoptimer : TOF();
+	fb_starttimer : TON();
 	captured_time : TIME;
+	sys_time : ULINT;
+	// Task time 
+    fbGetCurTaskIdx  : GETCURTASKINDEX;
+    ncycletime       : UDINT;
+	timestamp : REAL := 0.0;
+	run_once : BOOL := TRUE;
+	state_string : STRING := 'init';
+	state_number : INT := 1;
+	test_bool : BOOL := FALSE;
+	start_record : BOOL := FALSE;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[// Convert Data 
+      <ST><![CDATA[// Convert Data and get the raw data
+voltage_effective := INT_TO_REAL(GVL_IO.gl_voltage_effective_raw)/65535*20; // Measured with an 
+voltage_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
 
-voltage_effective := INT_TO_REAL(gvl.gl_voltage_effective_raw)/65535*20; // Measured with an 
-voltage_frequency := 1/(UINT_TO_REAL(gvl.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
+current_effective := INT_TO_REAL(GVL_IO.gl_current_effective_raw)/65535*20; // Measured with an 
+current_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
 
-current_effective := INT_TO_REAL(gvl.gl_current_effective_raw)/65535*20; // Measured with an 
-current_frequency := 1/(UINT_TO_REAL(gvl.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
+// start timing 
+sys_time := F_GetSystemTime(); 
+fb_starttimer();
+timestamp := timestamp + UDINT_TO_REAL(ncycletime);
+
+// get cycle time
+fbGetCurTaskIdx();
+ncycletime := _TaskInfo[fbGetCurTaskIdx.index].CycleTime/10000;
 
 // Calculate Power 
 
 power := voltage_effective * current_effective;
+captured_time := fb_starttimer.ET;
 
-IF (start_log = TRUE) THEN
-	fb_Start_Log.Start();
-	start_log := FALSE;
-END_IF
-captured_time := fb_stoptimer.ET;
-IF (stop_log = TRUE) THEN
-	fb_Start_Log.Stop();
-	stop_log := FALSE;
-END_IF]]></ST>
+		IF (start_log = TRUE) THEN
+			IF fb_Start_Log.Start() THEN
+				start_log := FALSE;
+				timestamp := 0;
+				fb_starttimer.IN := TRUE;
+			END_IF	
+		END_IF	
+		// stop logging measruement data to db
+		IF (fb_starttimer.Q = TRUE) THEN
+			IF fb_Start_Log.Stop() THEN
+				stop_log := FALSE;
+				fb_starttimer.IN := FALSE;
+				state_number := 1;
+			END_IF
+		END_IF
+
+
+CASE state_number OF
+	1  : // init
+		test_bool:= FALSE;
+		state_string := 'init';
+		//start_log := TRUE;
+		run_once := TRUE;
+		//IF start_record = TRUE THEN
+		//	state_number := 2;
+		//END_IF
+	2: // record
+		test_bool:= FALSE;
+		state_string := 'record';
+		// Write Metadata once before record to db
+		IF run_once = TRUE THEN
+			IF fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := FALSE) THEN
+			run_once := FALSE; // ...
+			END_IF
+		END_IF
+		// start logging measurement data to db
+		IF (start_log = TRUE) THEN
+			IF fb_Start_Log.Start() THEN
+				start_log := FALSE;
+				timestamp := 0;
+				fb_starttimer.IN := TRUE;
+			END_IF	
+		END_IF	
+		// stop logging measruement data to db
+		IF (fb_starttimer.Q = TRUE) THEN
+			IF fb_Start_Log.Stop() THEN
+				stop_log := FALSE;
+				fb_starttimer.IN := FALSE;
+				state_number := 1;
+			END_IF
+		END_IF
+		//start_record := FALSE;
+	3 : // stop
+		test_bool:= FALSE;
+		state_string := 'stop';
+END_CASE
+
+]]></ST>
     </Implementation>
     <LineIds Name="Get_Power">
       <LineId Id="2" Count="0" />
-      <LineId Id="14" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="18" Count="1" />
       <LineId Id="16" Count="0" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="164" Count="0" />
       <LineId Id="28" Count="0" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="162" Count="0" />
+      <LineId Id="166" Count="0" />
+      <LineId Id="168" Count="1" />
+      <LineId Id="167" Count="0" />
+      <LineId Id="163" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="32" Count="0" />
       <LineId Id="30" Count="0" />
-      <LineId Id="42" Count="0" />
-      <LineId Id="22" Count="0" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="46" Count="0" />
       <LineId Id="48" Count="0" />
-      <LineId Id="20" Count="0" />
-      <LineId Id="49" Count="0" />
-      <LineId Id="52" Count="0" />
-      <LineId Id="50" Count="0" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="253" Count="13" />
+      <LineId Id="251" Count="1" />
+      <LineId Id="175" Count="1" />
+      <LineId Id="184" Count="0" />
+      <LineId Id="186" Count="0" />
+      <LineId Id="193" Count="0" />
+      <LineId Id="218" Count="1" />
+      <LineId Id="221" Count="2" />
+      <LineId Id="187" Count="0" />
+      <LineId Id="189" Count="0" />
+      <LineId Id="194" Count="0" />
+      <LineId Id="201" Count="0" />
+      <LineId Id="197" Count="3" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="204" Count="4" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="211" Count="0" />
+      <LineId Id="216" Count="0" />
+      <LineId Id="212" Count="2" />
+      <LineId Id="217" Count="0" />
+      <LineId Id="215" Count="0" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="225" Count="0" />
+      <LineId Id="190" Count="1" />
+      <LineId Id="195" Count="0" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="174" Count="0" />
+      <LineId Id="91" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
