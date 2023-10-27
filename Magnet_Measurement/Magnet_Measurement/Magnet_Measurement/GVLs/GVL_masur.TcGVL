@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL_masur" Id="{06340c62-2405-4ab3-b49b-6b6255c8efb0}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	//id : INT; wird automatisch erstellt
+	time2 : REAL;
+	primary_power: REAL;
+	secondary_power: REAL;
+	phase_shift: REAL;
+	frequency: REAL;
+	flux_density: REAL;
+	Meta_id: INT;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

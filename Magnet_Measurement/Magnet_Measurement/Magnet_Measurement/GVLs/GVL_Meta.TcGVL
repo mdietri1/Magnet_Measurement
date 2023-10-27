@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL_Meta" Id="{2c3e24ce-8692-4958-b0ae-08eba5cd91d6}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	// Variablen for Database Metadata Table
+	//ID : INT; wird automatisch erstellt beim schreiben
+	measurementname : STRING;
+	carried_out : STRING;
+	thickness : REAL;
+	steel : STRING;
+	joint_pre : STRING;
+	root_face : STRING;
+	opening_angel : REAL;
+	edge_pre : STRING;
+	welding_speed : REAL;
+	laser_power : REAL;
+	focal_position : REAL;
+	distance_a_l : REAL;
+	wire_feeding_rate : REAL;
+	wire_diameter : REAL;
+	wire_type : STRING;
+	stickout : REAL;
+	arc_dynamic : REAL;
+	frequency : REAL;
+	voltage_ac_power_source : REAL;
+	distance_magnet_pole : REAL;
+	magnet_pole_width: REAL;
+	magnet_pole_type : STRING;
+	core_dimension : REAL;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>
