@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Log_Data" Id="{93bf4940-36a7-4a12-b3de-4bd98e8d993e}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Log_Data
+VAR
+	voltage_effective : REAL;
+	voltage_frequency : REAL;
+	current_effective : REAL;
+	current_frequency : REAL;
+	power : REAL;
+    fbGetCurTaskIdx  : GETCURTASKINDEX;
+    ncycletime       : UDINT;
+	stDatabase : ST_Data;
+
+	nState : INT;
+	fb_PLCDBWriteEvt: FB_PLCDBWriteEvt(sNetID:='', tTimeout:=T#5S);
+	arrColumns: ARRAY [0..2] OF STRING(50) := ['power', 'test', 'timestamp'];
+	ipTcResult: Tc3_Database.I_TcMessage;
+	sSourcePath: Tc3_Database.I_TcMessage;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//// Convert Data and get the raw data
+//voltage_effective := INT_TO_REAL(GVL_IO.gl_voltage_effective_raw)/65535*20; // Measured with an 
+//voltage_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+//current_effective := INT_TO_REAL(GVL_IO.gl_current_effective_raw)/65535*20; // Measured with an 
+//current_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+//fbGetCurTaskIdx();
+//ncycletime := _TaskInfo[fbGetCurTaskIdx.index].CycleTime/10000;
+//stDatabase.power := voltage_effective;
+//stDatabase.test := current_effective;
+//stDatabase.timestamp := timestamp;
+
+//CASE nState OF
+//	0: //Idle
+//		;
+//	1: //write
+//		timestamp := index * ncycletime;
+//		index := index + 1;
+//		fb_PLCDBWriteEvt.WriteStruct(
+//			hDBID:= 1, 
+//			sTableName:= 'Magnet', 
+//			pRecord:= ADR(stDatabase), 
+//			cbRecord:= SIZEOF(stDatabase), 
+//			pColumnNames:= ADR(arrColumns), 
+//			cbColumnNames:= SIZEOF(arrColumns));
+			
+//		IF NOT fb_PLCDBWriteEvt.bBusy THEN
+//			ipTcResult := fb_PLCDBWriteEvt.ipTcResult;
+//			IF NOT fb_PLCDBWriteEvt.bError THEN
+//				nState := 1;
+//			ELSE
+//				nState := 200;
+//			END_IF
+//		END_IF
+//	200: //Event State
+//		sSourcePath := ipTcResult;
+//		nState := 0;
+		
+//		;
+//END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="Log_Data">
+      <LineId Id="11" Count="4" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="60" Count="5" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="66" Count="2" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="72" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="34" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

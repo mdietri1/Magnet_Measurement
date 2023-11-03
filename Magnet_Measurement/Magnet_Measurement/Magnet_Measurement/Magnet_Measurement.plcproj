@@ -17,6 +17,9 @@
     <LibraryReferences>{06f79aa5-6422-4515-87e9-88b094c413e5}</LibraryReferences>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DUTs\ST_Data.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GlobalTextList.TcGTLO">
       <SubType>Code</SubType>
     </Compile>
@@ -36,6 +39,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Get_Power.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Log_Data.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Log_Data_Buffer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Visualisierungsmanager.TcVMO">
@@ -103,6 +112,10 @@
       <DefaultResolution>Tc2_ControllerToolbox, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_ControllerToolbox</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Database">
+      <DefaultResolution>Tc2_Database, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Database</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_Standard">
       <DefaultResolution>Tc2_Standard, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Standard</Namespace>
@@ -111,9 +124,17 @@
       <DefaultResolution>Tc2_System, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_System</Namespace>
     </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Database">
       <DefaultResolution>Tc3_Database, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc3_Database</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_EventLogger">
+      <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_EventLogger</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_Module">
       <DefaultResolution>Tc3_Module, * (Beckhoff Automation GmbH)</DefaultResolution>

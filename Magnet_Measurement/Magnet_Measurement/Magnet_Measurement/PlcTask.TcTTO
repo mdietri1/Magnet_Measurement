@@ -7,6 +7,12 @@
     <PouCall>
       <Name>Get_Power</Name>
     </PouCall>
+    <PouCall>
+      <Name>Log_Data</Name>
+    </PouCall>
+    <PouCall>
+      <Name>Log_Data_Buffer</Name>
+    </PouCall>
     <TaskFBGuid>{95fddd63-a0db-45f7-a5a2-6f2a1ec8d060}</TaskFBGuid>
     <Fb_init>{e66a9874-c51b-4d78-87bf-8ad3b4385ad3}</Fb_init>
     <Fb_exit>{5a226c48-4bec-4def-816b-343a1f51525b}</Fb_exit>

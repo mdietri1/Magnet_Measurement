@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Log_Data_Buffer" Id="{def14632-0ea6-45a1-81df-1b36ed798037}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Log_Data_Buffer
+VAR
+	voltage_effective : REAL;
+	voltage_frequency : REAL;
+	current_effective : REAL;
+	current_frequency : REAL;
+	power : REAL;
+    fbGetCurTaskIdx  : GETCURTASKINDEX;
+    ncycletime       : REAL;
+	nState: INT;	
+	bRecord : BOOL;
+	//for generating timestamp
+	fbGetSystemTime1: GetSystemTime;
+	dwTimeLoDW: DWORD;
+	dwTimeHiDW: DWORD;
+	tFileTime: T_FILETIME;
+	nTimestamp: LINT;
+	timest : REAL;
+	//for insert samples
+	fbPLCDBCmd: FB_PLCDBCmdEvt(sNetID:= '', tTimeout:= T#19S);
+	aPara: ARRAY [0..2] OF ST_ExpParameter;	
+	sCmd1: STRING(255);
+	sCmd2: STRING(255);
+	sCmd: STRING(512); //CONCAT of sCmd1 and sCmd2
+	
+	//Data buffer
+	aWriteSQL: ARRAY [0..19] OF BOOL;
+	stData: ARRAY [0..19,0..99] OF ST_Data;
+	
+	//buffer index
+	nWriteBufferIndex: INT := 0;
+	nWriteIndex: INT := 0;
+	nSQLIndex: INT := 0;					
+	bError: BOOL;
+	bTableCreated: BOOL;
+	bRecording: BOOL;
+	nRecords: INT;
+	sTableName: T_MaxString := 'Magnet';
+	nDBID: UDINT := 1;
+	index : INT := 0;
+	timestampp : REAL := 0;
+	
+	// Eventlogger
+	ipTcResult: Tc3_Database.I_TcMessage;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Convert Data and get the raw data
+voltage_effective := INT_TO_REAL(GVL_IO.gl_voltage_effective_raw)/65535*20; // Measured with an 
+voltage_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+current_effective := INT_TO_REAL(GVL_IO.gl_current_effective_raw)/65535*20; // Measured with an 
+current_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+fbGetCurTaskIdx();
+ncycletime := _TaskInfo[fbGetCurTaskIdx.index].CycleTime/10000;
+
+//Create timestamp
+fbGetSystemTime1(timeLoDW=>dwTimeLoDW,timeHiDW=>dwTimeHiDW);
+tFileTime.dwLowDateTime := dwTimeLoDW;
+tFileTime.dwHighDateTime := dwTimeHiDW;	
+MEMCPY(ADR(nTimestamp), ADR(tFileTime), 8);
+
+CASE nState OF
+	0://Init
+		IF bRecord THEN			
+			bError := FALSE;
+			bRecording := FALSE;
+			nRecords := 0;
+			
+			//sTableName := 'Magnet';//CONCAT('tbl_TestSignals_', LINT_TO_STRING(nTimestamp)); //create new tablename
+						
+			sCmd1 := CONCAT('INSERT INTO ', sTableName);
+			sCmd2 := ' ([power],[test],[timestamp]) VALUES({power},{test},{timestamp});';
+			
+			CONCAT2(ADR(sCmd1), ADR(sCmd2), ADR(sCmd), SIZEOF(sCmd));
+			
+			aPara[0].sParaName:= 'power'; 		aPara[0].nParaSize:= 8; 	aPara[0].eParaType:= E_ExpParameterType.Float32 ;		
+			aPara[1].sParaName:= 'test';		aPara[1].nParaSize:= 8;		aPara[1].eParaType:= E_ExpParameterType.Float32 ;		
+			aPara[2].sParaName:= 'timestamp';	aPara[2].nParaSize:= 8;		aPara[2].eParaType:= E_ExpParameterType.Float32 ;		
+			nWriteBufferIndex := 0;
+			nWriteIndex := 0;
+			nSQLIndex := 0;	
+			
+			nState := 1;
+		END_IF
+		
+	1://Idle
+		
+	2://Recording		
+		bRecording := TRUE;
+		
+		//Fill buffer
+		stData[nWriteBufferIndex, nWriteIndex].power := voltage_effective;
+		stData[nWriteBufferIndex, nWriteIndex].test := current_effective;
+		stData[nWriteBufferIndex, nWriteIndex].timestamp := timestampp;
+		timestampp := ncycletime * index;
+		index := index + 1;
+			
+		//Set buffer index
+		nWriteIndex := nWriteIndex + 1;		
+		IF nWriteIndex = 100 THEN
+			nWriteIndex := 0;
+			aWriteSQL[nWriteBufferIndex]:= TRUE;
+			nWriteBufferIndex := nWriteBufferIndex + 1;
+			
+			IF nWriteBufferIndex = 20 THEN
+				nWriteBufferIndex := 0;
+			END_IF 	
+			
+			IF aWriteSQL[nWriteBufferIndex] THEN
+				nState := 255;
+				RETURN;
+			END_IF
+		END_IF
+				
+		//Write buffer element (100 samples) to database
+		IF aWriteSQL[nSQLIndex] THEN
+			ipTcResult := fbPLCDBCmd.ipTcResult;
+			IF fbPLCDBCmd.Execute(nDBID, ADR(sCmd), SIZEOF(sCmd), ADR(stData[nSQLIndex,0]), SIZEOF(stData[nSQLIndex,0]) * 100, ADR(aPara), SIZEOF(aPara)) THEN
+				IF fbPLCDBCmd.bError THEN					
+					nState := 255;
+				ELSE
+					nRecords := nRecords + 100;
+					
+					aWriteSQL[nSQLIndex] := FALSE;
+					
+					nSQLIndex := nSQLIndex + 1;
+					IF nSQLIndex = 20 THEN
+						nSQLIndex := 0;
+					END_IF
+					
+					IF NOT bRecord THEN
+						bRecording := FALSE;
+						nState := 0;
+					END_IF
+				END_IF				
+			END_IF
+		END_IF
+		
+	255://Error
+		bError := TRUE;
+		bRecording := FALSE;
+		IF NOT bRecord THEN			
+			nState := 0;
+		END_IF 
+END_CASE
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="Log_Data_Buffer">
+      <LineId Id="11" Count="4" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="433" Count="4" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="438" Count="0" />
+      <LineId Id="310" Count="3" />
+      <LineId Id="315" Count="11" />
+      <LineId Id="432" Count="0" />
+      <LineId Id="335" Count="6" />
+      <LineId Id="360" Count="3" />
+      <LineId Id="439" Count="0" />
+      <LineId Id="365" Count="2" />
+      <LineId Id="431" Count="0" />
+      <LineId Id="374" Count="0" />
+      <LineId Id="458" Count="0" />
+      <LineId Id="375" Count="19" />
+      <LineId Id="459" Count="0" />
+      <LineId Id="395" Count="23" />
+      <LineId Id="420" Count="2" />
+      <LineId Id="111" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="34" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
