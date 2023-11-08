@@ -13,5 +13,9 @@
   <WSTRINGSupportActive>False</WSTRINGSupportActive>
   <TcDbSrvProject>
     <tcdbsrvdbCompile Include="TcDbServer\DB\DB.tcdbsrvdb" />
+    <tcdbsrvautoCompile Include="TcDbServer\DB\AutoLogGroup\AutoLogGroup.tcdbsrvauto" />
+    <tcdbsrvadsCompile Include="TcDbServer\DB\AutoLogGroup\AdsDevice.tcdbsrvads" />
+    <tcdbsrvsymCompile Include="TcDbServer\DB\AutoLogGroup\Symbols.tcdbsrvsym" />
+    <tcdbsrvtblCompile Include="TcDbServer\DB\AutoLogGroup\DBTable.tcdbsrvtbl" />
   </TcDbSrvProject>
 </ServerSettings>

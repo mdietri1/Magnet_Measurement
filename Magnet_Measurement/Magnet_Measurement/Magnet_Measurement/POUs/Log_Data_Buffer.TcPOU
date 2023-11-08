@@ -20,8 +20,9 @@ VAR
 	nTimestamp: REAL;
 	
 	//for insert meta data
+	fbWriteMetadata : FB_Write_Metadata;
+	fb_Start_Log : FB_PLCDBAutoLogEvt (sNetID:='', tTimeout := T#5S);
 	write_meta : BOOL;
-	status_write_meta : BOOL;
 	
 	//for insert masur samples
 	fbPLCDBCmd: FB_PLCDBCmdEvt(sNetID:= '', tTimeout:= T#19S);
@@ -98,8 +99,12 @@ CASE nState OF
 		
 	1://Idle
 		IF write_meta THEN
-			METH_Writemeta();
-			METH_Writemeta(status => status_write_meta); //Fehlerzustand beim schreiben der Metadaten 
+			//fbWriteMetadata(); //Fehlerzustand beim schreiben der Metadaten 
+			IF fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := FALSE) THEN
+			//fb_Start_Log :=  status_write_meta;//status_write_meta;
+			END_IF
+			//status_write_meta := //fbWriteMetadata.status;
+			write_meta := FALSE;
 		END_IF
 		
 	2://Recording		
@@ -167,71 +172,6 @@ END_CASE
 
 ]]></ST>
     </Implementation>
-    <Method Name="METH_Writemeta" Id="{54da36cd-3d83-45b3-b8b0-ba26b0fedece}">
-      <Declaration><![CDATA[METHOD METH_Writemeta : BOOL
-VAR
-	stMetadata : ST_Metadata;
-	fbPLCWrite : FB_PLCDBWrite(sNetID:='', tTimeout:=T#5S);
-	arrColumns: ARRAY[0..32] OF STRING(255) := ['measurementname', 'carried_out', 'thickness', 'steel', 'joint_pre', 'root_face', 'opening_angel', 'edge_pre', 'welding_speed', 'laser_power', 'focal_position', 'distance_a_l', 'wire_feeding_rate', 'wire_diameter', 'wire_type', 'stickout', 'arc_dynamic', 'frequency', 'voltage_ac_power_source', 'distance_magnet_pole', 'magnet_pole_width', 'magnet_pole_type', 'core_dimension', 'very_good', 'normal', 'uniform_root_overcome', 'undercut', 'sporadic_seam_collapse', 'sporadic_dropout', 'bad', 'periodic_dropout', 'strong_seam_collapse', 'incomplite_penetration'];
-END_VAR
-VAR_OUTPUT
-	status : BOOL;
-END_VAR]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[// Get variables from global list form Visu Interface 
-stMetadata.measurementname := GVL_Meta.measurementname;
-stMetadata.carried_out := GVL_Meta.carried_out;
-stMetadata.thickness := GVL_Meta.thickness;
-stMetadata.steel := GVL_Meta.steel;
-stMetadata.joint_pre := GVL_Meta.joint_pre;
-stMetadata.root_face := GVL_Meta.root_face;
-stMetadata.opening_angel := GVL_Meta.opening_angel;
-stMetadata.edge_pre := GVL_Meta.edge_pre;
-stMetadata.welding_speed := GVL_Meta.welding_speed;
-stMetadata.laser_power := GVL_Meta.laser_power;
-stMetadata.focal_position := GVL_Meta.focal_position;
-stMetadata.distance_a_l := GVL_Meta.distance_a_l;
-stMetadata.wire_feeding_rate := GVL_Meta.wire_feeding_rate;
-stMetadata.wire_diameter := GVL_Meta.wire_diameter;
-stMetadata.wire_type := GVL_Meta.wire_type;
-stMetadata.stickout := GVL_Meta.stickout;
-stMetadata.arc_dynamic := GVL_Meta.arc_dynamic;
-stMetadata.frequency := GVL_Meta.frequency;
-stMetadata.voltage_ac_power_source := GVL_Meta.voltage_ac_power_source;
-stMetadata.distance_magnet_pole := GVL_Meta.distance_magnet_pole;
-stMetadata.magnet_pole_width := GVL_Meta.magnet_pole_width;
-stMetadata.magnet_pole_type := GVL_Meta.magnet_pole_type;
-stMetadata.core_dimension := GVL_Meta.core_dimension;
-stMetadata.very_good := GVL_Meta.very_good;
-stMetadata.normal := GVL_Meta.normal;
-stMetadata.uniform_root_overcome := GVL_Meta.uniform_root_overcome;
-stMetadata.undercut := GVL_Meta.undercut;
-stMetadata.sporadic_seam_collapse := GVL_Meta.sporadic_seam_collapse;
-stMetadata.sporadic_dropout := GVL_Meta.sporadic_dropout;
-stMetadata.bad := GVL_Meta.bad;
-stMetadata.periodic_dropout := GVL_Meta.periodic_dropout;
-stMetadata.strong_seam_collapse := GVL_Meta.strong_seam_collapse;
-stMetadata.incomplite_penetration := GVL_Meta.incomplite_penetration;
-
-//write struct with event to database table Meta
-fbPLCWrite.WriteStruct(
-	hDBID:= 1, 
-	sTableName:= 'Meta', 
-	pRecord:= ADR(stMetadata), 
-	cbRecord:= SIZEOF(stMetadata), 
-	pColumnNames:= ADR(arrColumns), 
-	cbColumnNames:= SIZEOF(arrColumns));
-
-IF fbPLCWrite.bError THEN
-	status := TRUE;
-ELSE
-	status := FALSE;	
-END_IF
-
-	
-]]></ST>
-      </Implementation>
-    </Method>
     <LineIds Name="Log_Data_Buffer">
       <LineId Id="11" Count="4" />
       <LineId Id="5" Count="0" />
@@ -248,7 +188,9 @@ END_IF
       <LineId Id="360" Count="0" />
       <LineId Id="505" Count="0" />
       <LineId Id="511" Count="0" />
-      <LineId Id="513" Count="0" />
+      <LineId Id="579" Count="1" />
+      <LineId Id="578" Count="0" />
+      <LineId Id="526" Count="1" />
       <LineId Id="512" Count="0" />
       <LineId Id="361" Count="2" />
       <LineId Id="439" Count="0" />
@@ -264,23 +206,6 @@ END_IF
       <LineId Id="111" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="34" Count="0" />
-    </LineIds>
-    <LineIds Name="Log_Data_Buffer.METH_Writemeta">
-      <LineId Id="42" Count="0" />
-      <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="6" />
-      <LineId Id="16" Count="15" />
-      <LineId Id="33" Count="8" />
-      <LineId Id="43" Count="0" />
-      <LineId Id="15" Count="0" />
-      <LineId Id="52" Count="5" />
-      <LineId Id="51" Count="0" />
-      <LineId Id="65" Count="0" />
-      <LineId Id="59" Count="1" />
-      <LineId Id="62" Count="1" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="44" Count="1" />
-      <LineId Id="7" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

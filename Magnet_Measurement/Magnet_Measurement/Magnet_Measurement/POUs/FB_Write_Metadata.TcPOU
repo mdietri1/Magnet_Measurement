@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="FB_Write_Metadata" Id="{0933ff7e-151b-4cd6-8200-32d5615afe00}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Write_Metadata
+VAR
+	stMetadata : ST_Metadata;
+	fbPLCWrite : FB_PLCDBWriteEvt(sNetID:='', tTimeout:=T#15S);
+	arrColumns: ARRAY[0..33] OF STRING(255) := ['Id', 'measurementname', 'carried_out', 'thickness', 'steel', 'joint_pre', 'root_face', 'opening_angel', 'edge_pre', 'welding_speed', 'laser_power', 'focal_position', 'distance_a_l', 'wire_feeding_rate', 'wire_diameter', 'wire_type', 'stickout', 'arc_dynamic', 'frequency', 'voltage_ac_power_source', 'distance_magnet_pole', 'magnet_pole_width', 'magnet_pole_type', 'core_dimension', 'very_good', 'normal', 'uniform_root_overcome', 'undercut', 'sporadic_seam_collapse', 'sporadic_dropout', 'bad', 'periodic_dropout', 'strong_seam_collapse', 'incomplite_penetration'];
+END_VAR
+VAR_OUTPUT
+	status : BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Get variables from global list form Visu Interface 
+stMetadata.Id := GVL_Meta.Id;
+stMetadata.measurementname := GVL_Meta.measurementname;
+stMetadata.carried_out := GVL_Meta.carried_out;
+stMetadata.thickness := GVL_Meta.thickness;
+stMetadata.steel := GVL_Meta.steel;
+stMetadata.joint_pre := GVL_Meta.joint_pre;
+stMetadata.root_face := GVL_Meta.root_face;
+stMetadata.opening_angel := GVL_Meta.opening_angel;
+stMetadata.edge_pre := GVL_Meta.edge_pre;
+stMetadata.welding_speed := GVL_Meta.welding_speed;
+stMetadata.laser_power := GVL_Meta.laser_power;
+stMetadata.focal_position := GVL_Meta.focal_position;
+stMetadata.distance_a_l := GVL_Meta.distance_a_l;
+stMetadata.wire_feeding_rate := GVL_Meta.wire_feeding_rate;
+stMetadata.wire_diameter := GVL_Meta.wire_diameter;
+stMetadata.wire_type := GVL_Meta.wire_type;
+stMetadata.stickout := GVL_Meta.stickout;
+stMetadata.arc_dynamic := GVL_Meta.arc_dynamic;
+stMetadata.frequency := GVL_Meta.frequency;
+stMetadata.voltage_ac_power_source := GVL_Meta.voltage_ac_power_source;
+stMetadata.distance_magnet_pole := GVL_Meta.distance_magnet_pole;
+stMetadata.magnet_pole_width := GVL_Meta.magnet_pole_width;
+stMetadata.magnet_pole_type := GVL_Meta.magnet_pole_type;
+stMetadata.core_dimension := GVL_Meta.core_dimension;
+stMetadata.very_good := GVL_Meta.very_good;
+stMetadata.normal := GVL_Meta.normal;
+stMetadata.uniform_root_overcome := GVL_Meta.uniform_root_overcome;
+stMetadata.undercut := GVL_Meta.undercut;
+stMetadata.sporadic_seam_collapse := GVL_Meta.sporadic_seam_collapse;
+stMetadata.sporadic_dropout := GVL_Meta.sporadic_dropout;
+stMetadata.bad := GVL_Meta.bad;
+stMetadata.periodic_dropout := GVL_Meta.periodic_dropout;
+stMetadata.strong_seam_collapse := GVL_Meta.strong_seam_collapse;
+stMetadata.incomplite_penetration := GVL_Meta.incomplite_penetration;
+
+//write struct with event to database table Meta
+IF NOT fbPLCWrite.bBusy THEN
+	fbPLCWrite.WriteStruct(
+	hDBID:= 1, 
+	sTableName:= 'Meta', 
+	pRecord:= ADR(stMetadata), 
+	cbRecord:= SIZEOF(stMetadata), 
+	pColumnNames:= ADR(arrColumns), 
+	cbColumnNames:= SIZEOF(arrColumns));
+END_IF
+
+IF fbPLCWrite.bError THEN
+	status := TRUE;
+ELSE
+	status := FALSE;	
+END_IF
+
+	
+]]></ST>
+    </Implementation>
+    <LineIds Name="FB_Write_Metadata">
+      <LineId Id="17" Count="0" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="18" Count="34" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="71" Count="5" />
+      <LineId Id="69" Count="1" />
+      <LineId Id="60" Count="7" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

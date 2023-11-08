@@ -4,40 +4,40 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
 	// Variablen for Database Metadata Table
-	//ID : INT; wird automatisch erstellt beim schreiben
-	measurementname: STRING(255);
-	carried_out: STRING(255);
-	thickness: REAL;
-	steel: STRING(255);
-	joint_pre: STRING(255);
-	root_face: REAL;
-	opening_angel: REAL;
-	edge_pre: STRING(255);
-	welding_speed: REAL;
-	laser_power: REAL;
-	focal_position: REAL;
-	distance_a_l: REAL;
-	wire_feeding_rate: REAL;
-	wire_diameter: REAL;
-	wire_type: STRING(255);
-	stickout: REAL;
-	arc_dynamic: REAL;
-	frequency: REAL;
-	voltage_ac_power_source: REAL;
-	distance_magnet_pole: REAL;
-	magnet_pole_width: REAL;
-	magnet_pole_type: STRING(255);
-	core_dimension: REAL;
-	very_good: STRING(255);
-	normal: STRING(255);
-	uniform_root_overcome: STRING(255);
-	undercut: STRING(255);
-	sporadic_seam_collapse: STRING(255);
-	sporadic_dropout: STRING(255);
-	bad: STRING(255);
-	periodic_dropout: STRING(255);
-	strong_seam_collapse: STRING(255);
-	incomplite_penetration: STRING(255);
+	Id : LINT := 11; //wird automatisch erstellt beim schreiben
+	measurementname: STRING(255) := 'test';
+	carried_out: STRING(255) := 'test1';
+	thickness: REAL := 1;
+	steel: STRING(255) := 'stahl';
+	joint_pre: STRING(255) := 'squer';
+	root_face: REAL := 0;
+	opening_angel: REAL := 0;
+	edge_pre: STRING(255) := 'aet';
+	welding_speed: REAL := 0;
+	laser_power: REAL := 1;
+	focal_position: REAL := 2;
+	distance_a_l: REAL := 3;
+	wire_feeding_rate: REAL := 4;
+	wire_diameter: REAL := 5;
+	wire_type: STRING(255) := 'tea';
+	stickout: REAL := 6;
+	arc_dynamic: REAL := 2;
+	frequency: REAL := 1;
+	voltage_ac_power_source: REAL := 22;
+	distance_magnet_pole: REAL := 33;
+	magnet_pole_width: REAL := 22;
+	magnet_pole_type: STRING(255) := 'at';
+	core_dimension: REAL := 22;
+	very_good: STRING(255) := 'asd';
+	normal: STRING(255) := 'asd';
+	uniform_root_overcome: STRING(255) := 'asd';
+	undercut: STRING(255) := 'asdw';
+	sporadic_seam_collapse: STRING(255) := 'aaa';
+	sporadic_dropout: STRING(255) := 'aw';
+	bad: STRING(255) := 'aaaw';
+	periodic_dropout: STRING(255) := 'asdaw';
+	strong_seam_collapse: STRING(255) := 'aqqq';
+	incomplite_penetration: STRING(255) := 'öpkl';
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
