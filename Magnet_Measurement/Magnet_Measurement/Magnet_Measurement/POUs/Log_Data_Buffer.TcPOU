@@ -17,20 +17,24 @@ VAR
 	dwTimeLoDW: DWORD;
 	dwTimeHiDW: DWORD;
 	tFileTime: T_FILETIME;
-	nTimestamp: LINT;
-	timest : REAL;
-	//for insert samples
+	nTimestamp: REAL;
+	
+	//for insert meta data
+	write_meta : BOOL;
+	status_write_meta : BOOL;
+	
+	//for insert masur samples
 	fbPLCDBCmd: FB_PLCDBCmdEvt(sNetID:= '', tTimeout:= T#19S);
-	aPara: ARRAY [0..2] OF ST_ExpParameter;	
+	aPara: ARRAY [0..6] OF ST_ExpParameter;	
 	sCmd1: STRING(255);
 	sCmd2: STRING(255);
 	sCmd: STRING(512); //CONCAT of sCmd1 and sCmd2
 	
-	//Data buffer
+	//Data buffer for masur data
 	aWriteSQL: ARRAY [0..19] OF BOOL;
-	stData: ARRAY [0..19,0..99] OF ST_Data;
+	stData: ARRAY [0..19,0..99] OF ST_Masurdata;
 	
-	//buffer index
+	//buffer index and masur data variables
 	nWriteBufferIndex: INT := 0;
 	nWriteIndex: INT := 0;
 	nSQLIndex: INT := 0;					
@@ -38,7 +42,7 @@ VAR
 	bTableCreated: BOOL;
 	bRecording: BOOL;
 	nRecords: INT;
-	sTableName: T_MaxString := 'Magnet';
+	sTableName: T_MaxString := 'masur';
 	nDBID: UDINT := 1;
 	index : INT := 0;
 	timestampp : REAL := 0;
@@ -74,13 +78,17 @@ CASE nState OF
 			//sTableName := 'Magnet';//CONCAT('tbl_TestSignals_', LINT_TO_STRING(nTimestamp)); //create new tablename
 						
 			sCmd1 := CONCAT('INSERT INTO ', sTableName);
-			sCmd2 := ' ([power],[test],[timestamp]) VALUES({power},{test},{timestamp});';
+			sCmd2 := ' ([time2],[primary_power],[secondary_power],[phase_shift],[frequency],[flux_density],[Meta_id]) VALUES({time2},{primary_power},{secondary_power},{phase_shift},{frequency},{flux_density},{Meta_id});';
 			
 			CONCAT2(ADR(sCmd1), ADR(sCmd2), ADR(sCmd), SIZEOF(sCmd));
 			
-			aPara[0].sParaName:= 'power'; 		aPara[0].nParaSize:= 8; 	aPara[0].eParaType:= E_ExpParameterType.Float32 ;		
-			aPara[1].sParaName:= 'test';		aPara[1].nParaSize:= 8;		aPara[1].eParaType:= E_ExpParameterType.Float32 ;		
-			aPara[2].sParaName:= 'timestamp';	aPara[2].nParaSize:= 8;		aPara[2].eParaType:= E_ExpParameterType.Float32 ;		
+			aPara[0].sParaName:= 'time2'; 			aPara[0].nParaSize:= 8; 	aPara[0].eParaType:= E_ExpParameterType.Float32 ;		
+			aPara[1].sParaName:= 'primary_power';	aPara[1].nParaSize:= 8;		aPara[1].eParaType:= E_ExpParameterType.Float32 ;		
+			aPara[2].sParaName:= 'secondary_power';	aPara[2].nParaSize:= 8;		aPara[2].eParaType:= E_ExpParameterType.Float32 ;	
+			aPara[3].sParaName:= 'phase_shift';		aPara[3].nParaSize:= 8;		aPara[3].eParaType:= E_ExpParameterType.Float32 ;
+			aPara[4].sParaName:= 'frequency';		aPara[4].nParaSize:= 8;		aPara[4].eParaType:= E_ExpParameterType.Float32 ;
+			aPara[5].sParaName:= 'flux_density';	aPara[5].nParaSize:= 8;		aPara[5].eParaType:= E_ExpParameterType.Float32 ;
+			aPara[6].sParaName:= 'Meta_id';			aPara[6].nParaSize:= 8;		aPara[6].eParaType:= E_ExpParameterType.Int16 ;	
 			nWriteBufferIndex := 0;
 			nWriteIndex := 0;
 			nSQLIndex := 0;	
@@ -89,14 +97,22 @@ CASE nState OF
 		END_IF
 		
 	1://Idle
+		IF write_meta THEN
+			METH_Writemeta();
+			METH_Writemeta(status => status_write_meta); //Fehlerzustand beim schreiben der Metadaten 
+		END_IF
 		
 	2://Recording		
 		bRecording := TRUE;
 		
 		//Fill buffer
-		stData[nWriteBufferIndex, nWriteIndex].power := voltage_effective;
-		stData[nWriteBufferIndex, nWriteIndex].test := current_effective;
-		stData[nWriteBufferIndex, nWriteIndex].timestamp := timestampp;
+		stData[nWriteBufferIndex, nWriteIndex].time2 := ntimestamp;
+		stData[nWriteBufferIndex, nWriteIndex].primary_power := voltage_effective*current_effective;
+		stData[nWriteBufferIndex, nWriteIndex].secondary_power := voltage_effective*current_effective+1;
+		stData[nWriteBufferIndex, nWriteIndex].phase_shift := 1.0;
+		stData[nWriteBufferIndex, nWriteIndex].frequency := 2.0;
+		stData[nWriteBufferIndex, nWriteIndex].flux_density := 3.0;
+		stData[nWriteBufferIndex, nWriteIndex].Meta_id := 1;
 		timestampp := ncycletime * index;
 		index := index + 1;
 			
@@ -151,6 +167,71 @@ END_CASE
 
 ]]></ST>
     </Implementation>
+    <Method Name="METH_Writemeta" Id="{54da36cd-3d83-45b3-b8b0-ba26b0fedece}">
+      <Declaration><![CDATA[METHOD METH_Writemeta : BOOL
+VAR
+	stMetadata : ST_Metadata;
+	fbPLCWrite : FB_PLCDBWrite(sNetID:='', tTimeout:=T#5S);
+	arrColumns: ARRAY[0..32] OF STRING(255) := ['measurementname', 'carried_out', 'thickness', 'steel', 'joint_pre', 'root_face', 'opening_angel', 'edge_pre', 'welding_speed', 'laser_power', 'focal_position', 'distance_a_l', 'wire_feeding_rate', 'wire_diameter', 'wire_type', 'stickout', 'arc_dynamic', 'frequency', 'voltage_ac_power_source', 'distance_magnet_pole', 'magnet_pole_width', 'magnet_pole_type', 'core_dimension', 'very_good', 'normal', 'uniform_root_overcome', 'undercut', 'sporadic_seam_collapse', 'sporadic_dropout', 'bad', 'periodic_dropout', 'strong_seam_collapse', 'incomplite_penetration'];
+END_VAR
+VAR_OUTPUT
+	status : BOOL;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[// Get variables from global list form Visu Interface 
+stMetadata.measurementname := GVL_Meta.measurementname;
+stMetadata.carried_out := GVL_Meta.carried_out;
+stMetadata.thickness := GVL_Meta.thickness;
+stMetadata.steel := GVL_Meta.steel;
+stMetadata.joint_pre := GVL_Meta.joint_pre;
+stMetadata.root_face := GVL_Meta.root_face;
+stMetadata.opening_angel := GVL_Meta.opening_angel;
+stMetadata.edge_pre := GVL_Meta.edge_pre;
+stMetadata.welding_speed := GVL_Meta.welding_speed;
+stMetadata.laser_power := GVL_Meta.laser_power;
+stMetadata.focal_position := GVL_Meta.focal_position;
+stMetadata.distance_a_l := GVL_Meta.distance_a_l;
+stMetadata.wire_feeding_rate := GVL_Meta.wire_feeding_rate;
+stMetadata.wire_diameter := GVL_Meta.wire_diameter;
+stMetadata.wire_type := GVL_Meta.wire_type;
+stMetadata.stickout := GVL_Meta.stickout;
+stMetadata.arc_dynamic := GVL_Meta.arc_dynamic;
+stMetadata.frequency := GVL_Meta.frequency;
+stMetadata.voltage_ac_power_source := GVL_Meta.voltage_ac_power_source;
+stMetadata.distance_magnet_pole := GVL_Meta.distance_magnet_pole;
+stMetadata.magnet_pole_width := GVL_Meta.magnet_pole_width;
+stMetadata.magnet_pole_type := GVL_Meta.magnet_pole_type;
+stMetadata.core_dimension := GVL_Meta.core_dimension;
+stMetadata.very_good := GVL_Meta.very_good;
+stMetadata.normal := GVL_Meta.normal;
+stMetadata.uniform_root_overcome := GVL_Meta.uniform_root_overcome;
+stMetadata.undercut := GVL_Meta.undercut;
+stMetadata.sporadic_seam_collapse := GVL_Meta.sporadic_seam_collapse;
+stMetadata.sporadic_dropout := GVL_Meta.sporadic_dropout;
+stMetadata.bad := GVL_Meta.bad;
+stMetadata.periodic_dropout := GVL_Meta.periodic_dropout;
+stMetadata.strong_seam_collapse := GVL_Meta.strong_seam_collapse;
+stMetadata.incomplite_penetration := GVL_Meta.incomplite_penetration;
+
+//write struct with event to database table Meta
+fbPLCWrite.WriteStruct(
+	hDBID:= 1, 
+	sTableName:= 'Meta', 
+	pRecord:= ADR(stMetadata), 
+	cbRecord:= SIZEOF(stMetadata), 
+	pColumnNames:= ADR(arrColumns), 
+	cbColumnNames:= SIZEOF(arrColumns));
+
+IF fbPLCWrite.bError THEN
+	status := TRUE;
+ELSE
+	status := FALSE;	
+END_IF
+
+	
+]]></ST>
+      </Implementation>
+    </Method>
     <LineIds Name="Log_Data_Buffer">
       <LineId Id="11" Count="4" />
       <LineId Id="5" Count="0" />
@@ -162,11 +243,18 @@ END_CASE
       <LineId Id="310" Count="3" />
       <LineId Id="315" Count="11" />
       <LineId Id="432" Count="0" />
+      <LineId Id="517" Count="3" />
       <LineId Id="335" Count="6" />
-      <LineId Id="360" Count="3" />
+      <LineId Id="360" Count="0" />
+      <LineId Id="505" Count="0" />
+      <LineId Id="511" Count="0" />
+      <LineId Id="513" Count="0" />
+      <LineId Id="512" Count="0" />
+      <LineId Id="361" Count="2" />
       <LineId Id="439" Count="0" />
       <LineId Id="365" Count="2" />
       <LineId Id="431" Count="0" />
+      <LineId Id="521" Count="3" />
       <LineId Id="374" Count="0" />
       <LineId Id="458" Count="0" />
       <LineId Id="375" Count="19" />
@@ -176,6 +264,23 @@ END_CASE
       <LineId Id="111" Count="0" />
       <LineId Id="31" Count="0" />
       <LineId Id="34" Count="0" />
+    </LineIds>
+    <LineIds Name="Log_Data_Buffer.METH_Writemeta">
+      <LineId Id="42" Count="0" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="6" />
+      <LineId Id="16" Count="15" />
+      <LineId Id="33" Count="8" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="15" Count="0" />
+      <LineId Id="52" Count="5" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="7" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

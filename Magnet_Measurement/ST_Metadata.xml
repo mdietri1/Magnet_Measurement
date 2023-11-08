@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="Beckhoff Automation GmbH" productName="TF6420 Database Server Query Analyser" productVersion="1.0.0.0" creationDateTime="2023-11-08T08:31:16" />
+  <contentHeader name="Untitled1" modificationDateTime="2023-11-08T08:31:16">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes>
+      <dataType name="ST_Metadata">
+        <baseType>
+          <struct>
+            <variable name="Id">
+              <type>
+                <LINT />
+              </type>
+            </variable>
+            <variable name="measurementname">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="carried_out">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="thickness">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="steel">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="joint_pre">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="root_face">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="opening_angel">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="edge_pre">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="welding_speed">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="laser_power">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="focal_position">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="distance_a_l">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="wire_feeding_rate">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="wire_diameter">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="wire_type">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="stickout">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="arc_dynamic">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="frequency">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="voltage_ac_power_source">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="distance_magnet_pole">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="magnet_pole_width">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="magnet_pole_type">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="core_dimension">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="very_good">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="normal">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="uniform_root_overcome">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="undercut">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="sporadic_seam_collapse">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="sporadic_dropout">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="bad">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="periodic_dropout">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="strong_seam_collapse">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+            <variable name="incomplite_penetration">
+              <type>
+                <string length="255" />
+              </type>
+            </variable>
+          </struct>
+        </baseType>
+        <addData />
+      </dataType>
+    </dataTypes>
+    <pous />
+  </types>
+  <instances>
+    <configurations />
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="ST_Metadata" />
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>
