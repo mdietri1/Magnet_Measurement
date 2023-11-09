@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <ImagePool Name="ImagePool" Id="{4b2b1e1c-3220-4bfa-870d-53e3d9564176}">
+    <XmlArchive>
+      <Data>
+        <o xml:space="preserve" t="ImagePoolObject">
+          <v n="UniqueIdGenerator">"3"</v>
+          <l n="BitmapPool" t="ArrayList" cet="ImagePoolItem">
+            <o>
+              <v n="BitmapID">"BAM_Logo"</v>
+              <v n="FileID">"5ce3da45-db07-42e7-a21c-a00fff4ed8f6|C:\Users\maxdt\OneDrive\BAM_ HiWi\Magnet_Measurement\Magnet_Measurement\BAM-Logo-2015.svg.png"</v>
+              <v n="ItemID">2</v>
+            </o>
+            <o>
+              <v n="BitmapID">""</v>
+              <v n="FileID">""</v>
+              <v n="ItemID">1</v>
+            </o>
+          </l>
+          <v n="GuidInit">{9e0d244f-f59e-4624-9eea-168d3688252a}</v>
+          <v n="GuidReInit">{e7037485-ef58-45a7-9abd-2417843ba696}</v>
+          <v n="GuidExitX">{2887424c-6437-44f5-aafc-e6e4a7e3c832}</v>
+          <v n="ValidIds">false</v>
+        </o>
+      </Data>
+      <TypeList>
+        <Type n="ArrayList">System.Collections.ArrayList</Type>
+        <Type n="Boolean">System.Boolean</Type>
+        <Type n="Guid">System.Guid</Type>
+        <Type n="ImagePoolItem">{215b2719-0347-4e4d-ba85-8bcd66946f66}</Type>
+        <Type n="ImagePoolObject">{bb0b9044-714e-4614-ad3e-33cbdf34d16b}</Type>
+        <Type n="Int32">System.Int32</Type>
+        <Type n="String">System.String</Type>
+      </TypeList>
+    </XmlArchive>
+    <ObjectProperties>
+      <XmlArchive>
+        <Data>
+          <o xml:space="preserve" t="ImagePoolPropertiesObject">
+            <v n="DownloadOnlyUsedImages">true</v>
+            <v n="Internal">false</v>
+            <n n="SymbolTextList" />
+          </o>
+        </Data>
+        <TypeList>
+          <Type n="Boolean">System.Boolean</Type>
+          <Type n="ImagePoolPropertiesObject">{a67e96c6-3fd3-4d25-a9ff-723c6b2f78cb}</Type>
+        </TypeList>
+      </XmlArchive>
+    </ObjectProperties>
+  </ImagePool>
+</TcPlcObject>
