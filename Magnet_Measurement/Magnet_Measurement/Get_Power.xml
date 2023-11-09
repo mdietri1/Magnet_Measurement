@@ -1,0 +1,315 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="Beckhoff Automation GmbH" productName="TwinCAT PLC Control" productVersion="3.5.13.21" creationDateTime="2023-11-09T09:07:57.7940917" />
+  <contentHeader name="Magnet_Measurement" modificationDateTime="2023-11-09T09:07:57.7980915">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes />
+    <pous>
+      <pou name="Get_Power" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="voltage_effective">
+              <type>
+                <REAL />
+              </type>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/attributes" handleUnknown="implementation">
+                  <Attributes>
+                    <Attribute Name="no_init" Value="" />
+                  </Attributes>
+                </data>
+              </addData>
+            </variable>
+            <variable name="voltage_frequency">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="current_effective">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="current_frequency">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="power">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="start_log">
+              <type>
+                <BOOL />
+              </type>
+              <initialValue>
+                <simpleValue value="FALSE" />
+              </initialValue>
+            </variable>
+            <variable name="stop_log">
+              <type>
+                <BOOL />
+              </type>
+              <initialValue>
+                <simpleValue value="FALSE" />
+              </initialValue>
+            </variable>
+            <variable name="fb_Start_Log">
+              <type>
+                <derived name="FB_PLCDBAutoLogEvt" />
+              </type>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/inputassignments" handleUnknown="implementation">
+                  <InputAssignments>
+                    <InputAssignment>
+                      <Name>sNetID</Name>
+                      <Value>''</Value>
+                    </InputAssignment>
+                    <InputAssignment>
+                      <Name>tTimeout</Name>
+                      <Value>TIME#5s0ms</Value>
+                    </InputAssignment>
+                  </InputAssignments>
+                </data>
+                <data name="http://www.3s-software.com/plcopenxml/attributes" handleUnknown="implementation">
+                  <Attributes>
+                    <Attribute Name="old_input_assignments" Value="" />
+                  </Attributes>
+                </data>
+              </addData>
+            </variable>
+            <variable name="fb_starttimer">
+              <type>
+                <derived name="TON" />
+              </type>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/attributes" handleUnknown="implementation">
+                  <Attributes>
+                    <Attribute Name="old_input_assignments" Value="" />
+                  </Attributes>
+                </data>
+              </addData>
+            </variable>
+            <variable name="captured_time">
+              <type>
+                <TIME />
+              </type>
+            </variable>
+            <variable name="sys_time">
+              <type>
+                <ULINT />
+              </type>
+            </variable>
+            <variable name="fbGetCurTaskIdx">
+              <type>
+                <derived name="GETCURTASKINDEX" />
+              </type>
+              <documentation>
+                <xhtml xmlns="http://www.w3.org/1999/xhtml"> Task time </xhtml>
+              </documentation>
+            </variable>
+            <variable name="ncycletime">
+              <type>
+                <UDINT />
+              </type>
+            </variable>
+            <variable name="timestamp">
+              <type>
+                <REAL />
+              </type>
+              <initialValue>
+                <simpleValue value="0.0" />
+              </initialValue>
+            </variable>
+            <variable name="run_once">
+              <type>
+                <BOOL />
+              </type>
+              <initialValue>
+                <simpleValue value="TRUE" />
+              </initialValue>
+            </variable>
+            <variable name="state_string">
+              <type>
+                <string />
+              </type>
+              <initialValue>
+                <simpleValue value="'init'" />
+              </initialValue>
+            </variable>
+            <variable name="state_number">
+              <type>
+                <INT />
+              </type>
+              <initialValue>
+                <simpleValue value="1" />
+              </initialValue>
+            </variable>
+            <variable name="test_bool">
+              <type>
+                <BOOL />
+              </type>
+              <initialValue>
+                <simpleValue value="FALSE" />
+              </initialValue>
+            </variable>
+            <variable name="start_record">
+              <type>
+                <BOOL />
+              </type>
+              <initialValue>
+                <simpleValue value="FALSE" />
+              </initialValue>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">// Convert Data AND get the raw data
+//voltage_effective := INT_TO_REAL(GVL_IO.gl_voltage_effective_raw)/65535*20; // Measured with an 
+//voltage_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+//current_effective := INT_TO_REAL(GVL_IO.gl_current_effective_raw)/65535*20; // Measured with an 
+//current_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+// start timing 
+//sys_time := F_GetSystemTime(); 
+//fb_starttimer();
+//timestamp := timestamp + UDINT_TO_REAL(ncycletime);
+
+// get cycle TIME
+//fbGetCurTaskIdx();
+//ncycletime := _TaskInfo[fbGetCurTaskIdx.index].CycleTime/10000;
+
+// Calculate Power 
+
+//power := voltage_effective * current_effective;
+//captured_time := fb_starttimer.ET;
+
+//		IF (start_log = TRUE) THEN
+//			IF fb_Start_Log.Start() THEN
+//				start_log := FALSE;
+//				timestamp := 0;
+//				fb_starttimer.IN := TRUE;
+//			END_IF	
+//		END_IF	
+//		// stop logging measruement data to db
+//		IF (fb_starttimer.Q = TRUE) THEN
+//			IF fb_Start_Log.Stop() THEN
+//				stop_log := FALSE;
+//				fb_starttimer.IN := FALSE;
+//				state_number := 1;
+//			END_IF
+//		END_IF
+
+
+//CASE state_number OF
+//	1  : // init
+//		test_bool:= FALSE;
+//		state_string := 'init';
+//		//start_log := TRUE;
+//		run_once := TRUE;
+//		//IF start_record = TRUE THEN
+//		//	state_number := 2;
+//		//END_IF
+//	2: // record
+//		test_bool:= FALSE;
+//		state_string := 'record';
+//		// Write Metadata once before record to db
+//		IF run_once = TRUE THEN
+//			IF fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := FALSE) THEN
+//			run_once := FALSE; // ...
+//			END_IF
+//		END_IF
+//		// start logging measurement data to db
+//		IF (start_log = TRUE) THEN
+//			IF fb_Start_Log.Start() THEN
+//				start_log := FALSE;
+//				timestamp := 0;
+//				fb_starttimer.IN := TRUE;
+//			END_IF	
+//		END_IF	
+//		// stop logging measruement data to db
+//		IF (fb_starttimer.Q = TRUE) THEN
+//			IF fb_Start_Log.Stop() THEN
+//				stop_log := FALSE;
+//				fb_starttimer.IN := FALSE;
+//				state_number := 1;
+//			END_IF
+//		END_IF
+//		//start_record := FALSE;
+//	3 : // stop
+//		test_bool:= FALSE;
+//		state_string := 'stop';
+//END_CASE
+
+</xhtml>
+          </ST>
+        </body>
+        <addData>
+          <data name="http://www.3s-software.com/plcopenxml/interfaceasplaintext" handleUnknown="implementation">
+            <InterfaceAsPlainText>
+              <xhtml xmlns="http://www.w3.org/1999/xhtml">PROGRAM Get_Power
+VAR
+	{ attribute 'no_init'}
+	voltage_effective : REAL;
+	voltage_frequency : REAL;
+	current_effective : REAL;
+	current_frequency : REAL;
+	power : REAL;
+	start_log : BOOL := FALSE;
+	stop_log : BOOL := FALSE;
+	fb_Start_Log : FB_PLCDBAutoLogEvt (sNetID:='', tTimeout := T#5S);
+	fb_starttimer : TON();
+	captured_time : TIME;
+	sys_time : ULINT;
+	// Task time 
+    fbGetCurTaskIdx  : GETCURTASKINDEX;
+    ncycletime       : UDINT;
+	timestamp : REAL := 0.0;
+	run_once : BOOL := TRUE;
+	state_string : STRING := 'init';
+	state_number : INT := 1;
+	test_bool : BOOL := FALSE;
+	start_record : BOOL := FALSE;
+END_VAR
+</xhtml>
+            </InterfaceAsPlainText>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+            <ObjectId>1025fbe5-1567-453c-9968-b618e325114d</ObjectId>
+          </data>
+        </addData>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations />
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="Get_Power" ObjectId="1025fbe5-1567-453c-9968-b618e325114d" />
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>

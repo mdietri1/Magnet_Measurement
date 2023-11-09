@@ -4,8 +4,12 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Write_Metadata
 VAR
 	stMetadata : ST_Metadata;
-	fbPLCWrite : FB_PLCDBWriteEvt(sNetID:='', tTimeout:=T#15S);
-	arrColumns: ARRAY[0..33] OF STRING(255) := ['Id', 'measurementname', 'carried_out', 'thickness', 'steel', 'joint_pre', 'root_face', 'opening_angel', 'edge_pre', 'welding_speed', 'laser_power', 'focal_position', 'distance_a_l', 'wire_feeding_rate', 'wire_diameter', 'wire_type', 'stickout', 'arc_dynamic', 'frequency', 'voltage_ac_power_source', 'distance_magnet_pole', 'magnet_pole_width', 'magnet_pole_type', 'core_dimension', 'very_good', 'normal', 'uniform_root_overcome', 'undercut', 'sporadic_seam_collapse', 'sporadic_dropout', 'bad', 'periodic_dropout', 'strong_seam_collapse', 'incomplite_penetration'];
+	//fbPLCWrite : FB_PLCDBWriteEvt(sNetID:='', tTimeout:=T#15S);
+	//arrColumns: ARRAY[0..33] OF STRING(255) := ['Id', 'measurementname', 'carried_out', 'thickness', 'steel', 'joint_pre', 'root_face', 'opening_angel', 'edge_pre', 'welding_speed', 'laser_power', 'focal_position', 'distance_a_l', 'wire_feeding_rate', 'wire_diameter', 'wire_type', 'stickout', 'arc_dynamic', 'frequency', 'voltage_ac_power_source', 'distance_magnet_pole', 'magnet_pole_width', 'magnet_pole_type', 'core_dimension', 'very_good', 'normal', 'uniform_root_overcome', 'undercut', 'sporadic_seam_collapse', 'sporadic_dropout', 'bad', 'periodic_dropout', 'strong_seam_collapse', 'incomplite_penetration'];
+	stData123 : ST_Data;
+	fb_PLCDBWriteEvt: FB_PLCDBWriteEvt(sNetID:='', tTimeout:=T#5S);
+	arrColumns: ARRAY [0..2] OF STRING(50) := ['power', 'test', 'timestamp'];
+	
 END_VAR
 VAR_OUTPUT
 	status : BOOL;
@@ -48,22 +52,36 @@ stMetadata.periodic_dropout := GVL_Meta.periodic_dropout;
 stMetadata.strong_seam_collapse := GVL_Meta.strong_seam_collapse;
 stMetadata.incomplite_penetration := GVL_Meta.incomplite_penetration;
 
-//write struct with event to database table Meta
-IF NOT fbPLCWrite.bBusy THEN
-	fbPLCWrite.WriteStruct(
-	hDBID:= 1, 
-	sTableName:= 'Meta', 
-	pRecord:= ADR(stMetadata), 
-	cbRecord:= SIZEOF(stMetadata), 
-	pColumnNames:= ADR(arrColumns), 
-	cbColumnNames:= SIZEOF(arrColumns));
-END_IF
+//Test
+stData123.power := 1.0;
+stData123.test := 2.0;
+stData123.timestamp := 3.0;
+//IF NOT fb_PLCDBWriteEvt.bBusy THEN
+	fb_PLCDBWriteEvt.WriteStruct(
+			hDBID:= 1, 
+			sTableName:= 'Magnet', 
+			pRecord:= ADR(stData123), 
+			cbRecord:= SIZEOF(stData123), 
+			pColumnNames:= ADR(arrColumns), 
+			cbColumnNames:= SIZEOF(arrColumns));
+//END_IF
 
-IF fbPLCWrite.bError THEN
-	status := TRUE;
-ELSE
-	status := FALSE;	
-END_IF
+//write struct with event to database table Meta
+//IF NOT fbPLCWrite.bBusy THEN
+//	fbPLCWrite.WriteStruct(
+//	hDBID:= 1, 
+//	sTableName:= 'Meta', 
+//	pRecord:= ADR(stMetadata), 
+//	cbRecord:= SIZEOF(stMetadata), 
+//	pColumnNames:= ADR(arrColumns), 
+//	cbColumnNames:= SIZEOF(arrColumns));
+//END_IF
+
+//IF fbPLCWrite.bError THEN
+//	status := TRUE;
+//ELSE
+//	status := FALSE;	
+//END_IF
 
 	
 ]]></ST>
@@ -71,7 +89,11 @@ END_IF
     <LineIds Name="FB_Write_Metadata">
       <LineId Id="17" Count="0" />
       <LineId Id="86" Count="0" />
-      <LineId Id="18" Count="34" />
+      <LineId Id="18" Count="32" />
+      <LineId Id="97" Count="5" />
+      <LineId Id="105" Count="5" />
+      <LineId Id="103" Count="1" />
+      <LineId Id="51" Count="1" />
       <LineId Id="68" Count="0" />
       <LineId Id="71" Count="5" />
       <LineId Id="69" Count="1" />

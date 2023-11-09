@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://www.plcopen.org/xml/tc6_0200">
+  <fileHeader companyName="Beckhoff Automation GmbH" productName="TwinCAT PLC Control" productVersion="3.5.13.21" creationDateTime="2023-11-09T09:08:17.7032943" />
+  <contentHeader name="Magnet_Measurement" modificationDateTime="2023-11-09T09:08:17.7032943">
+    <coordinateInfo>
+      <fbd>
+        <scaling x="1" y="1" />
+      </fbd>
+      <ld>
+        <scaling x="1" y="1" />
+      </ld>
+      <sfc>
+        <scaling x="1" y="1" />
+      </sfc>
+    </coordinateInfo>
+    <addData>
+      <data name="http://www.3s-software.com/plcopenxml/projectinformation" handleUnknown="implementation">
+        <ProjectInformation />
+      </data>
+    </addData>
+  </contentHeader>
+  <types>
+    <dataTypes />
+    <pous>
+      <pou name="Log_Data" pouType="program">
+        <interface>
+          <localVars>
+            <variable name="voltage_effective">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="voltage_frequency">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="current_effective">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="current_frequency">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="power">
+              <type>
+                <REAL />
+              </type>
+            </variable>
+            <variable name="fbGetCurTaskIdx">
+              <type>
+                <derived name="GETCURTASKINDEX" />
+              </type>
+            </variable>
+            <variable name="ncycletime">
+              <type>
+                <UDINT />
+              </type>
+            </variable>
+            <variable name="stDatabase">
+              <type>
+                <derived name="ST_Data" />
+              </type>
+            </variable>
+            <variable name="nState">
+              <type>
+                <INT />
+              </type>
+            </variable>
+            <variable name="fb_PLCDBWriteEvt">
+              <type>
+                <derived name="FB_PLCDBWriteEvt" />
+              </type>
+              <addData>
+                <data name="http://www.3s-software.com/plcopenxml/inputassignments" handleUnknown="implementation">
+                  <InputAssignments>
+                    <InputAssignment>
+                      <Name>sNetID</Name>
+                      <Value>''</Value>
+                    </InputAssignment>
+                    <InputAssignment>
+                      <Name>tTimeout</Name>
+                      <Value>TIME#5s0ms</Value>
+                    </InputAssignment>
+                  </InputAssignments>
+                </data>
+                <data name="http://www.3s-software.com/plcopenxml/attributes" handleUnknown="implementation">
+                  <Attributes>
+                    <Attribute Name="old_input_assignments" Value="" />
+                  </Attributes>
+                </data>
+              </addData>
+            </variable>
+            <variable name="arrColumns">
+              <type>
+                <array>
+                  <dimension lower="0" upper="2" />
+                  <baseType>
+                    <string length="50" />
+                  </baseType>
+                </array>
+              </type>
+              <initialValue>
+                <arrayValue>
+                  <value>
+                    <simpleValue value="'power'" />
+                  </value>
+                  <value>
+                    <simpleValue value="'test'" />
+                  </value>
+                  <value>
+                    <simpleValue value="'timestamp'" />
+                  </value>
+                </arrayValue>
+              </initialValue>
+            </variable>
+            <variable name="ipTcResult">
+              <type>
+                <derived name="Tc3_Database.I_TcMessage" />
+              </type>
+            </variable>
+            <variable name="sSourcePath">
+              <type>
+                <derived name="Tc3_Database.I_TcMessage" />
+              </type>
+            </variable>
+          </localVars>
+        </interface>
+        <body>
+          <ST>
+            <xhtml xmlns="http://www.w3.org/1999/xhtml">//// Convert Data and get the raw data
+//voltage_effective := INT_TO_REAL(GVL_IO.gl_voltage_effective_raw)/65535*20; // Measured with an 
+//voltage_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+//current_effective := INT_TO_REAL(GVL_IO.gl_current_effective_raw)/65535*20; // Measured with an 
+//current_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
+
+//fbGetCurTaskIdx();
+//ncycletime := _TaskInfo[fbGetCurTaskIdx.index].CycleTime/10000;
+//stDatabase.power := voltage_effective;
+//stDatabase.test := current_effective;
+//stDatabase.timestamp := timestamp;
+
+//CASE nState OF
+//	0: //Idle
+//		;
+//	1: //write
+//		timestamp := index * ncycletime;
+//		index := index + 1;
+//		fb_PLCDBWriteEvt.WriteStruct(
+//			hDBID:= 1, 
+//			sTableName:= 'Magnet', 
+//			pRecord:= ADR(stDatabase), 
+//			cbRecord:= SIZEOF(stDatabase), 
+//			pColumnNames:= ADR(arrColumns), 
+//			cbColumnNames:= SIZEOF(arrColumns));
+			
+//		IF NOT fb_PLCDBWriteEvt.bBusy THEN
+//			ipTcResult := fb_PLCDBWriteEvt.ipTcResult;
+//			IF NOT fb_PLCDBWriteEvt.bError THEN
+//				nState := 1;
+//			ELSE
+//				nState := 200;
+//			END_IF
+//		END_IF
+//	200: //Event State
+//		sSourcePath := ipTcResult;
+//		nState := 0;
+		
+//		;
+//END_CASE</xhtml>
+          </ST>
+        </body>
+        <addData>
+          <data name="http://www.3s-software.com/plcopenxml/interfaceasplaintext" handleUnknown="implementation">
+            <InterfaceAsPlainText>
+              <xhtml xmlns="http://www.w3.org/1999/xhtml">PROGRAM Log_Data
+VAR
+	voltage_effective : REAL;
+	voltage_frequency : REAL;
+	current_effective : REAL;
+	current_frequency : REAL;
+	power : REAL;
+    fbGetCurTaskIdx  : GETCURTASKINDEX;
+    ncycletime       : UDINT;
+	stDatabase : ST_Data;
+
+	nState : INT;
+	fb_PLCDBWriteEvt: FB_PLCDBWriteEvt(sNetID:='', tTimeout:=T#5S);
+	arrColumns: ARRAY [0..2] OF STRING(50) := ['power', 'test', 'timestamp'];
+	ipTcResult: Tc3_Database.I_TcMessage;
+	sSourcePath: Tc3_Database.I_TcMessage;
+	
+END_VAR
+</xhtml>
+            </InterfaceAsPlainText>
+          </data>
+          <data name="http://www.3s-software.com/plcopenxml/objectid" handleUnknown="discard">
+            <ObjectId>93bf4940-36a7-4a12-b3de-4bd98e8d993e</ObjectId>
+          </data>
+        </addData>
+      </pou>
+    </pous>
+  </types>
+  <instances>
+    <configurations />
+  </instances>
+  <addData>
+    <data name="http://www.3s-software.com/plcopenxml/projectstructure" handleUnknown="discard">
+      <ProjectStructure>
+        <Object Name="Log_Data" ObjectId="93bf4940-36a7-4a12-b3de-4bd98e8d993e" />
+      </ProjectStructure>
+    </data>
+  </addData>
+</project>

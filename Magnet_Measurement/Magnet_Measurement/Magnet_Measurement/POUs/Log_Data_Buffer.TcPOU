@@ -21,8 +21,11 @@ VAR
 	
 	//for insert meta data
 	fbWriteMetadata : FB_Write_Metadata;
-	fb_Start_Log : FB_PLCDBAutoLogEvt (sNetID:='', tTimeout := T#5S);
+	fb_Start_Log : FB_PLCDBAutoLogEvt (sNetID:='', tTimeout := T#1S);
 	write_meta : BOOL;
+	write_meta_status : BOOL; 
+	write_meta_error : BOOL; 
+	meta_data_written_index : INT := 1;
 	
 	//for insert masur samples
 	fbPLCDBCmd: FB_PLCDBCmdEvt(sNetID:= '', tTimeout:= T#19S);
@@ -45,8 +48,8 @@ VAR
 	nRecords: INT;
 	sTableName: T_MaxString := 'masur';
 	nDBID: UDINT := 1;
-	index : INT := 0;
 	timestampp : REAL := 0;
+	index : INT := 0;
 	
 	// Eventlogger
 	ipTcResult: Tc3_Database.I_TcMessage;
@@ -99,12 +102,17 @@ CASE nState OF
 		
 	1://Idle
 		IF write_meta THEN
-			//fbWriteMetadata(); //Fehlerzustand beim schreiben der Metadaten 
-			IF fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := FALSE) THEN
-			//fb_Start_Log :=  status_write_meta;//status_write_meta;
+			IF meta_data_written_index = 1 THEN
+				fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := TRUE);
+				meta_data_written_index := 2;
+			ELSE 
+				fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := TRUE);
+				fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := TRUE);
+				fb_Start_Log.RunOnce(hAutologGrpID := 1, bAll := TRUE);
 			END_IF
-			//status_write_meta := //fbWriteMetadata.status;
 			write_meta := FALSE;
+			write_meta_status := fb_Start_Log.bBusy;
+			write_meta_error := fb_Start_Log.bError;
 		END_IF
 		
 	2://Recording		
@@ -187,10 +195,16 @@ END_CASE
       <LineId Id="335" Count="6" />
       <LineId Id="360" Count="0" />
       <LineId Id="505" Count="0" />
-      <LineId Id="511" Count="0" />
-      <LineId Id="579" Count="1" />
-      <LineId Id="578" Count="0" />
-      <LineId Id="526" Count="1" />
+      <LineId Id="717" Count="0" />
+      <LineId Id="579" Count="0" />
+      <LineId Id="718" Count="0" />
+      <LineId Id="724" Count="0" />
+      <LineId Id="726" Count="1" />
+      <LineId Id="725" Count="0" />
+      <LineId Id="720" Count="0" />
+      <LineId Id="527" Count="0" />
+      <LineId Id="728" Count="0" />
+      <LineId Id="730" Count="0" />
       <LineId Id="512" Count="0" />
       <LineId Id="361" Count="2" />
       <LineId Id="439" Count="0" />

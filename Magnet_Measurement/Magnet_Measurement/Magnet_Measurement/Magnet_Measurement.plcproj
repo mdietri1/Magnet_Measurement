@@ -47,12 +47,6 @@
     <Compile Include="POUs\FB_Write_Metadata.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Get_Power.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\Log_Data.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\Log_Data_Buffer.TcPOU">
       <SubType>Code</SubType>
     </Compile>
