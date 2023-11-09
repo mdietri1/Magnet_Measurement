@@ -29,7 +29,7 @@ VAR
 	
 	//for insert masur samples
 	fbPLCDBCmd: FB_PLCDBCmdEvt(sNetID:= '', tTimeout:= T#19S);
-	aPara: ARRAY [0..6] OF ST_ExpParameter;	
+	aPara: ARRAY [0..7] OF ST_ExpParameter;	
 	sCmd1: STRING(255);
 	sCmd2: STRING(255);
 	sCmd: STRING(512); //CONCAT of sCmd1 and sCmd2
@@ -50,9 +50,11 @@ VAR
 	nDBID: UDINT := 1;
 	timestampp : REAL := 0;
 	index : INT := 0;
+	id: INT := 1852;
 	
 	// Eventlogger
 	ipTcResult: Tc3_Database.I_TcMessage;
+
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -82,17 +84,18 @@ CASE nState OF
 			//sTableName := 'Magnet';//CONCAT('tbl_TestSignals_', LINT_TO_STRING(nTimestamp)); //create new tablename
 						
 			sCmd1 := CONCAT('INSERT INTO ', sTableName);
-			sCmd2 := ' ([time2],[primary_power],[secondary_power],[phase_shift],[frequency],[flux_density],[Meta_id]) VALUES({time2},{primary_power},{secondary_power},{phase_shift},{frequency},{flux_density},{Meta_id});';
+			sCmd2 := ' ([id],[time2],[primary_power],[secondary_power],[phase_shift],[frequency],[flux_density],[Meta_id]) VALUES({id},{time2},{primary_power},{secondary_power},{phase_shift},{frequency},{flux_density},{Meta_id});';
 			
 			CONCAT2(ADR(sCmd1), ADR(sCmd2), ADR(sCmd), SIZEOF(sCmd));
 			
-			aPara[0].sParaName:= 'time2'; 			aPara[0].nParaSize:= 8; 	aPara[0].eParaType:= E_ExpParameterType.Float32 ;		
-			aPara[1].sParaName:= 'primary_power';	aPara[1].nParaSize:= 8;		aPara[1].eParaType:= E_ExpParameterType.Float32 ;		
-			aPara[2].sParaName:= 'secondary_power';	aPara[2].nParaSize:= 8;		aPara[2].eParaType:= E_ExpParameterType.Float32 ;	
-			aPara[3].sParaName:= 'phase_shift';		aPara[3].nParaSize:= 8;		aPara[3].eParaType:= E_ExpParameterType.Float32 ;
-			aPara[4].sParaName:= 'frequency';		aPara[4].nParaSize:= 8;		aPara[4].eParaType:= E_ExpParameterType.Float32 ;
-			aPara[5].sParaName:= 'flux_density';	aPara[5].nParaSize:= 8;		aPara[5].eParaType:= E_ExpParameterType.Float32 ;
-			aPara[6].sParaName:= 'Meta_id';			aPara[6].nParaSize:= 8;		aPara[6].eParaType:= E_ExpParameterType.Int16 ;	
+			aPara[0].sParaName:= 'id'; 				aPara[0].nParaSize:= 8; 	aPara[0].eParaType:= E_ExpParameterType.Int32 ;
+			aPara[1].sParaName:= 'time2'; 			aPara[1].nParaSize:= 8; 	aPara[1].eParaType:= E_ExpParameterType.Float32 ;		
+			aPara[2].sParaName:= 'primary_power';	aPara[2].nParaSize:= 8;		aPara[2].eParaType:= E_ExpParameterType.Float32 ;		
+			aPara[3].sParaName:= 'secondary_power';	aPara[3].nParaSize:= 8;		aPara[3].eParaType:= E_ExpParameterType.Float32 ;	
+			aPara[4].sParaName:= 'phase_shift';		aPara[4].nParaSize:= 8;		aPara[4].eParaType:= E_ExpParameterType.Float32 ;
+			aPara[5].sParaName:= 'frequency';		aPara[5].nParaSize:= 8;		aPara[5].eParaType:= E_ExpParameterType.Float32 ;
+			aPara[6].sParaName:= 'flux_density';	aPara[6].nParaSize:= 8;		aPara[6].eParaType:= E_ExpParameterType.Float32 ;
+			aPara[7].sParaName:= 'Meta_id';			aPara[7].nParaSize:= 8;		aPara[7].eParaType:= E_ExpParameterType.Int32 ;	
 			nWriteBufferIndex := 0;
 			nWriteIndex := 0;
 			nSQLIndex := 0;	
@@ -119,16 +122,17 @@ CASE nState OF
 		bRecording := TRUE;
 		
 		//Fill buffer
-		stData[nWriteBufferIndex, nWriteIndex].time2 := ntimestamp;
+		stData[nWriteBufferIndex, nWriteIndex].id := id;
+		stData[nWriteBufferIndex, nWriteIndex].time2 := 1.0;
 		stData[nWriteBufferIndex, nWriteIndex].primary_power := voltage_effective*current_effective;
-		stData[nWriteBufferIndex, nWriteIndex].secondary_power := voltage_effective*current_effective+1;
+		stData[nWriteBufferIndex, nWriteIndex].secondary_power := voltage_effective*current_effective;
 		stData[nWriteBufferIndex, nWriteIndex].phase_shift := 1.0;
 		stData[nWriteBufferIndex, nWriteIndex].frequency := 2.0;
 		stData[nWriteBufferIndex, nWriteIndex].flux_density := 3.0;
 		stData[nWriteBufferIndex, nWriteIndex].Meta_id := 1;
 		timestampp := ncycletime * index;
 		index := index + 1;
-			
+		id := id + 1;
 		//Set buffer index
 		nWriteIndex := nWriteIndex + 1;		
 		IF nWriteIndex = 100 THEN
@@ -189,7 +193,9 @@ END_CASE
       <LineId Id="113" Count="0" />
       <LineId Id="438" Count="0" />
       <LineId Id="310" Count="3" />
-      <LineId Id="315" Count="11" />
+      <LineId Id="315" Count="9" />
+      <LineId Id="785" Count="0" />
+      <LineId Id="325" Count="1" />
       <LineId Id="432" Count="0" />
       <LineId Id="517" Count="3" />
       <LineId Id="335" Count="6" />
@@ -208,7 +214,9 @@ END_CASE
       <LineId Id="512" Count="0" />
       <LineId Id="361" Count="2" />
       <LineId Id="439" Count="0" />
-      <LineId Id="365" Count="2" />
+      <LineId Id="365" Count="0" />
+      <LineId Id="784" Count="0" />
+      <LineId Id="366" Count="1" />
       <LineId Id="431" Count="0" />
       <LineId Id="521" Count="3" />
       <LineId Id="374" Count="0" />

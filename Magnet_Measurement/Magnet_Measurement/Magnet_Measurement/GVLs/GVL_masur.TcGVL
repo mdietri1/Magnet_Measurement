@@ -3,7 +3,7 @@
   <GVL Name="GVL_masur" Id="{06340c62-2405-4ab3-b49b-6b6255c8efb0}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	//id : INT; wird automatisch erstellt
+	id : INT; //wird automatisch erstellt
 	time2 : REAL;
 	primary_power: REAL;
 	secondary_power: REAL;
