@@ -3,11 +3,17 @@
   <GVL Name="GVL_IO" Id="{71bba7d0-3505-4f0b-8492-903f27a2e840}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	// Raw data read every cycle
-	gl_voltage_effective_raw AT %I* : INT := 15000;
-	gl_voltage_periode_raw AT  %I* : UINT := 20;
-	gl_current_effective_raw AT %I* : INT := 3800;
-	gl_current_periode_raw AT %I* : UINT := 20;
+	//Raw data read every cycle
+	//Primärspule
+	gl_voltage_effective_raw_prime AT %I* : UINT := 15000; //Effektivwert Spannung Primärspule Rohwert
+	gl_voltage_periode_raw_prime AT  %I* : UINT := 20; //Periode Spannungsignal Primärspule Rohwert
+	gl_current_effective_raw_prime AT %I* : UINT := 3800; //Effektivwert Stromstärke Primärspule Rohwert
+	gl_current_periode_raw_prime AT %I* : UINT := 20; //Periode Stromstärkesignal Primärspule Rohwert
+	//Sekundärspule
+	gl_voltage_effective_raw_secondary AT %I* : UINT := 15000; //Effektivwert Spannung Sekundärspule Rohwert
+	gl_voltage_periode_raw_secondary AT  %I* : UINT := 20; //Periode Spannungsignal Sekundärspule Rohwert
+	gl_current_effective_raw_secondary AT %I* : UINT := 3800; //Effektivwert Stromstärke Sekundärspule Rohwert
+	gl_current_periode_raw_secondary AT %I* : UINT := 20; //Periode Stromstärkesignal Sekundärspule Rohwert
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

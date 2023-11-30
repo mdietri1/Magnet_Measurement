@@ -1,5 +1,35 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.35">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{18071995-0000-0000-0000-000000000035}" TcBaseType="true" HideType="true">UINTARR2</Name>
+			<BitSize>32</BitSize>
+			<BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType>
+			<ArrayInfo>
+				<LBound>0</LBound>
+				<Elements>2</Elements>
+			</ArrayInfo>
+			<Format Name="ArrayView" Preview="[%u, %u]">
+				<Printf>[%u, %u]</Printf>
+				<Parameter>[0]</Parameter>
+				<Parameter>[1]</Parameter>
+			</Format>
+			<Format Name="MixedView" Preview="%x [%u, %u]">
+				<Printf>0x%08x [%u, %u]</Printf>
+				<Parameter>.</Parameter>
+				<Parameter>[0]</Parameter>
+				<Parameter>[1]</Parameter>
+			</Format>
+			<Format Name="32bitView" Preview="%x (%u)">
+				<Printf>0x%08x (%u)</Printf>
+				<Parameter>.</Parameter>
+				<Parameter>.</Parameter>
+			</Format>
+		</DataType>
+	</DataTypes>
+	<ImageDatas>
+		<ImageData Id="1000">424de6000000000000007600000028000000100000000e000000010004000000000070000000c40e0000c40e0000100000001000000000000000ff0000000084000084848400c6c6c6000000ff00ff00ff0000ffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff0066333333333336666644444340403666664004434747366666405443444436666640044340403666664004434141366666400453444436666640042340403666664444444545366600044544444436660644454440403666004555554444366606444544424236660004454444443666</ImageData>
+	</ImageDatas>
 	<Project ProjectGUID="{F7DE9032-B3F0-4387-BF11-4FF3C2665775}" Target64Bit="true" ShowHideConfigurations="#x106">
 		<System>
 			<Settings MaxCpus="12" NonWinCpus="1">
@@ -19,26 +49,49 @@
 		</System>
 		<Plc>
 			<Project GUID="{36F01E52-3611-4757-8663-DBE501F075DD}" Name="Magnet_Measurement" PrjFilePath="Magnet_Measurement\Magnet_Measurement.plcproj" TmcFilePath="Magnet_Measurement\Magnet_Measurement.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{77BDC528-9C74-1FB1-68C1-54350747443D}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{253D314D-0FA9-19B8-75CD-63FC042F34DD}">
 					<Name>Magnet_Measurement Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>GVL_IO.gl_voltage_effective_raw</Name>
-							<Comment><![CDATA[ Raw data read every cycle]]></Comment>
-							<Type>INT</Type>
-						</Var>
-						<Var>
-							<Name>GVL_IO.gl_voltage_periode_raw</Name>
+							<Name>GVL_IO.gl_voltage_effective_raw_prime</Name>
+							<Comment><![CDATA[Effektivwert Spannung Primärspule Rohwert]]></Comment>
 							<Type>UINT</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.gl_current_effective_raw</Name>
-							<Type>INT</Type>
+							<Name>GVL_IO.gl_voltage_periode_raw_prime</Name>
+							<Comment><![CDATA[Periode Spannungsignal Primärspule Rohwert]]></Comment>
+							<Type>UINT</Type>
 						</Var>
 						<Var>
-							<Name>GVL_IO.gl_current_periode_raw</Name>
+							<Name>GVL_IO.gl_current_effective_raw_prime</Name>
+							<Comment><![CDATA[Effektivwert Stromstärke Primärspule Rohwert]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.gl_current_periode_raw_prime</Name>
+							<Comment><![CDATA[Periode Stromstärkesignal Primärspule Rohwert]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.gl_voltage_effective_raw_secondary</Name>
+							<Comment><![CDATA[Effektivwert Spannung Sekundärspule Rohwert]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.gl_voltage_periode_raw_secondary</Name>
+							<Comment><![CDATA[Periode Spannungsignal Sekundärspule Rohwert]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.gl_current_effective_raw_secondary</Name>
+							<Comment><![CDATA[Effektivwert Stromstärke Sekundärspule Rohwert]]></Comment>
+							<Type>UINT</Type>
+						</Var>
+						<Var>
+							<Name>GVL_IO.gl_current_periode_raw_secondary</Name>
+							<Comment><![CDATA[Periode Stromstärkesignal Sekundärspule Rohwert]]></Comment>
 							<Type>UINT</Type>
 						</Var>
 					</Vars>
@@ -59,5 +112,184 @@
 				</Instance>
 			</Project>
 		</Plc>
+		<Io>
+			<Device Id="1" Disabled="true" DevType="111" DevFlags="#x0003" AmsPort="28673" AmsNetId="192.168.56.1.2.1" RemoteName="Gerät 1 (EtherCAT)" InfoImageId="2">
+				<Name>Gerät 1 (EtherCAT)</Name>
+				<AddressInfo>
+					<Pnp>
+						<DeviceDesc>Ethernet (Realtek PCIe GbE Family Controller)</DeviceDesc>
+						<DeviceName>\DEVICE\{7705E7EB-C3A8-464D-8D16-5B77B1A9FA90}</DeviceName>
+						<DeviceData>7085c2be1aeb</DeviceData>
+					</Pnp>
+				</AddressInfo>
+				<Image Id="1" AddrType="9" ImageType="3">
+					<Name>Prozessabbild</Name>
+				</Image>
+				<Box Id="1" BoxType="9081" AmsPort="28928">
+					<Name>Box 1 (BK1120)</Name>
+					<ImageId>1000</ImageId>
+					<Vars VarGrpType="1">
+						<Name>Eingänge</Name>
+						<Var>
+							<Name>CouplerState</Name>
+							<Comment><![CDATA[0x0000 = No error
+0x0001 = K-Bus error
+0x0002 = Configuration error
+0x0010 = Outputs disabled
+0x0020 = K-Bus overrun
+0x0040 = Communication error (Inputs)
+0x0080 = Communication error (Outputs)
+]]></Comment>
+							<Type>UINT</Type>
+							<BitOffs>208</BitOffs>
+						</Var>
+					</Vars>
+					<Vars VarGrpType="2">
+						<Name>Ausgänge</Name>
+						<Var>
+							<Name>CouplerCtrl</Name>
+							<Comment><![CDATA[0x0010 = Disable outputs
+0x0020 = Show K-Bus overrun
+]]></Comment>
+							<Type>UINT</Type>
+							<BitOffs>208</BitOffs>
+						</Var>
+					</Vars>
+					<BusCoupler ComplexTermSupport="true" NewHardware="true">
+						<Flags SupportVirtualTerms="true"/>
+						<Term Id="2" TermType="#xd22" Fieldbus="7">
+							<Name>Klemme 2 (KL3362)</Name>
+							<ImageId>33</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Kanal 1</Name>
+								<Var>
+									<Name>Status</Name>
+									<Type>USINT</Type>
+									<BitOffs>224</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Ein</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>240</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Kontrolle</Name>
+									<Type>USINT</Type>
+									<BitOffs>224</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Aus</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>240</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Kanal 2</Name>
+								<Var>
+									<Name>Status</Name>
+									<Type>USINT</Type>
+									<BitOffs>272</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Ein</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>288</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Kontrolle</Name>
+									<Type>USINT</Type>
+									<BitOffs>272</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Aus</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>288</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="3" TermType="#xd22" Fieldbus="7">
+							<Name>Klemme 3 (KL3362)</Name>
+							<ImageId>33</ImageId>
+							<Vars VarGrpType="3">
+								<Name>Kanal 1</Name>
+								<Var>
+									<Name>Status</Name>
+									<Type>USINT</Type>
+									<BitOffs>320</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Ein</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>336</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Kontrolle</Name>
+									<Type>USINT</Type>
+									<BitOffs>320</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Aus</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>336</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+							<Vars VarGrpType="3">
+								<Name>Kanal 2</Name>
+								<Var>
+									<Name>Status</Name>
+									<Type>USINT</Type>
+									<BitOffs>368</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Ein</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>384</BitOffs>
+									<InOut>0</InOut>
+								</Var>
+								<Var>
+									<Name>Kontrolle</Name>
+									<Type>USINT</Type>
+									<BitOffs>368</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+								<Var>
+									<Name>Daten Aus</Name>
+									<Type GUID="{18071995-0000-0000-0000-000000000035}">UINTARR2</Type>
+									<BitOffs>384</BitOffs>
+									<InOut>1</InOut>
+								</Var>
+							</Vars>
+						</Term>
+						<Term Id="1" TermType="#x2332" Fieldbus="7">
+							<Name>End-Klemme (KL9010)</Name>
+							<ImageId>32</ImageId>
+						</Term>
+					</BusCoupler>
+					<EtherCAT SlaveType="3" AdsServerAddress="c0a838010202e903" PdiType="#x0208" MboxDataLinkLayer="true" CycleMBoxPolling="true" CoeType="51" FoeType="1" VendorId="#x00000002" ProductCode="#x04602c22" RevisionNo="#x00150000" InfoDataAddr="true" InfoDataNetId="true" TimeoutStateChange1="5000" TimeoutMailbox2="6000" GenerateOwnNetId="true" PortPhys="17" PortABoxInfo="#x00ffffff">
+						<SyncMan>001e00012600010001000000400000010001001e26010000</SyncMan>
+						<SyncMan>001f00012200010002000000400000010001001f22010000</SyncMan>
+						<SyncMan>00101a002400010003000000000000000000001024010000</SyncMan>
+						<SyncMan>00171a000000010004000000000000000000001700010000</SyncMan>
+						<Fmmu>0000000000000000001000020100000001000000000000000000000000000000</Fmmu>
+						<Fmmu>0000000000000000001700010100000002000000000000000000000000000000</Fmmu>
+						<BootStrapData>0010140200181402</BootStrapData>
+					</EtherCAT>
+				</Box>
+				<EtherCAT/>
+			</Device>
+		</Io>
 	</Project>
 </TcSmProject>

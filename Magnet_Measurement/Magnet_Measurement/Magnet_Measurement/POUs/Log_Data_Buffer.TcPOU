@@ -3,12 +3,19 @@
   <POU Name="Log_Data_Buffer" Id="{def14632-0ea6-45a1-81df-1b36ed798037}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM Log_Data_Buffer
 VAR
-	voltage_effective : REAL;
-	voltage_frequency : REAL;
-	current_effective : REAL;
-	current_frequency : REAL;
-	power : REAL;
-    fbGetCurTaskIdx  : GETCURTASKINDEX;
+	//Messvariablen
+	voltage_effective_prime : REAL; //Effektivwert Spannung Primärspule umgewandelt auf +-10V
+	voltage_frequency_prime : REAL; //Frequenz Primärspule Spannungssignal umgewandelt auf +-10 in Hz
+	current_effective_prime : REAL; //Effektivwert Stromstärke Primärspule umgewandelt auf +-10V umgewandelt zu Ampere
+	current_frequency_prime : REAL; //Frequenz Primärspule Stromstärkesignal umgewandelt auf +-10 Hz
+	voltage_effective_secondary : REAL; //Effektivwert Spannung Sekundärspule umgewandelt auf +-10V
+	voltage_frequency_secondary : REAL; //Frequenz Sekundärspule Spannungssignal umgewandelt auf +-10 Hz
+	current_effective_secondary : REAL; //Effektivwert Stromstärke Sekundärspule umgewandelt auf +-10V umgewandelt zu Ampere
+	current_frequency_secondary : REAL; //Frequenz Sekundärspule Stromstärkesignal umgewandelt auf +-10 Hz
+	power_prime : REAL; //Leistung Primärspule W
+	power_secondary : REAL; //Leistung Sekundärspule W
+    
+	fbGetCurTaskIdx  : GETCURTASKINDEX;
     ncycletime       : REAL;
 	nState: INT;	
 	bRecord : BOOL;
@@ -18,7 +25,6 @@ VAR
 	dwTimeHiDW: DWORD;
 	tFileTime: T_FILETIME;
 	nTimestamp: REAL;
-	
 	//for insert meta data
 	fbWriteMetadata : FB_Write_Metadata;
 	fb_Start_Log : FB_PLCDBAutoLogEvt (sNetID:='', tTimeout := T#1S);
@@ -59,11 +65,18 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[// Convert Data and get the raw data
-voltage_effective := INT_TO_REAL(GVL_IO.gl_voltage_effective_raw)/65535*20; // Measured with an 
-voltage_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw)/1000); //convert ms to s and get Frequency from Period
-
-current_effective := INT_TO_REAL(GVL_IO.gl_current_effective_raw)/65535*20; // Measured with an 
-current_frequency := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw)/1000); //convert ms to s and get Frequency from Period
+//Primärspule
+voltage_effective_prime := UINT_TO_REAL(GVL_IO.gl_voltage_effective_raw_prime)/65535*20; //Map UINT range of 0:65535 to +-10V 
+voltage_frequency_prime := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw_prime)/1000); //convert ms to S and get Frequency from Period
+current_effective_prime := UINT_TO_REAL(GVL_IO.gl_current_effective_raw_prime)/65535*20; //Map UINT range of 0:65535 to +-10V 
+current_frequency_prime := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw_prime)/1000); //convert ms to S and get Frequency from Period
+power_prime := voltage_effective_prime * current_effective_prime;
+//Sekundärspule
+voltage_effective_secondary := UINT_TO_REAL(GVL_IO.gl_voltage_effective_raw_secondary)/65535*20; //Map UINT range of 0:65535 to +-10V 
+voltage_frequency_secondary := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw_secondary)/1000); //convert ms to S and get Frequency from Period
+current_effective_secondary := UINT_TO_REAL(GVL_IO.gl_current_effective_raw_secondary)/65535*20; //Map UINT range of 0:65535 to +-10V 
+current_frequency_secondary := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw_secondary)/1000); //convert ms to S and get Frequency from Period
+power_secondary := voltage_effective_secondary * current_effective_secondary;
 
 fbGetCurTaskIdx();
 ncycletime := _TaskInfo[fbGetCurTaskIdx.index].CycleTime/10000;
@@ -80,12 +93,9 @@ CASE nState OF
 			bError := FALSE;
 			bRecording := FALSE;
 			nRecords := 0;
-			
 			//sTableName := 'Magnet';//CONCAT('tbl_TestSignals_', LINT_TO_STRING(nTimestamp)); //create new tablename
-						
 			sCmd1 := CONCAT('INSERT INTO ', sTableName);
 			sCmd2 := ' ([id],[time2],[primary_power],[secondary_power],[phase_shift],[frequency],[flux_density],[Meta_id]) VALUES({id},{time2},{primary_power},{secondary_power},{phase_shift},{frequency},{flux_density},{Meta_id});';
-			
 			CONCAT2(ADR(sCmd1), ADR(sCmd2), ADR(sCmd), SIZEOF(sCmd));
 			
 			aPara[0].sParaName:= 'id'; 				aPara[0].nParaSize:= 8; 	aPara[0].eParaType:= E_ExpParameterType.Int32 ;
@@ -99,7 +109,6 @@ CASE nState OF
 			nWriteBufferIndex := 0;
 			nWriteIndex := 0;
 			nSQLIndex := 0;	
-			
 			nState := 1;
 		END_IF
 		
@@ -120,12 +129,11 @@ CASE nState OF
 		
 	2://Recording		
 		bRecording := TRUE;
-		
 		//Fill buffer
 		stData[nWriteBufferIndex, nWriteIndex].id := id;
-		stData[nWriteBufferIndex, nWriteIndex].time2 := 1.0;
-		stData[nWriteBufferIndex, nWriteIndex].primary_power := voltage_effective*current_effective;
-		stData[nWriteBufferIndex, nWriteIndex].secondary_power := voltage_effective*current_effective;
+		stData[nWriteBufferIndex, nWriteIndex].time2 := timestampp;
+		stData[nWriteBufferIndex, nWriteIndex].primary_power := power_prime;
+		stData[nWriteBufferIndex, nWriteIndex].secondary_power := power_secondary;
 		stData[nWriteBufferIndex, nWriteIndex].phase_shift := 1.0;
 		stData[nWriteBufferIndex, nWriteIndex].frequency := 2.0;
 		stData[nWriteBufferIndex, nWriteIndex].flux_density := 3.0;
@@ -185,20 +193,30 @@ END_CASE
 ]]></ST>
     </Implementation>
     <LineIds Name="Log_Data_Buffer">
-      <LineId Id="11" Count="4" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="848" Count="0" />
+      <LineId Id="12" Count="1" />
+      <LineId Id="15" Count="0" />
       <LineId Id="5" Count="0" />
+      <LineId Id="850" Count="4" />
+      <LineId Id="849" Count="0" />
+      <LineId Id="855" Count="0" />
       <LineId Id="17" Count="1" />
       <LineId Id="16" Count="0" />
       <LineId Id="433" Count="4" />
       <LineId Id="113" Count="0" />
       <LineId Id="438" Count="0" />
       <LineId Id="310" Count="3" />
-      <LineId Id="315" Count="9" />
+      <LineId Id="315" Count="1" />
+      <LineId Id="318" Count="0" />
+      <LineId Id="320" Count="1" />
+      <LineId Id="323" Count="1" />
       <LineId Id="785" Count="0" />
       <LineId Id="325" Count="1" />
       <LineId Id="432" Count="0" />
       <LineId Id="517" Count="3" />
-      <LineId Id="335" Count="6" />
+      <LineId Id="335" Count="2" />
+      <LineId Id="339" Count="2" />
       <LineId Id="360" Count="0" />
       <LineId Id="505" Count="0" />
       <LineId Id="717" Count="0" />
@@ -213,7 +231,6 @@ END_CASE
       <LineId Id="730" Count="0" />
       <LineId Id="512" Count="0" />
       <LineId Id="361" Count="2" />
-      <LineId Id="439" Count="0" />
       <LineId Id="365" Count="0" />
       <LineId Id="784" Count="0" />
       <LineId Id="366" Count="1" />
