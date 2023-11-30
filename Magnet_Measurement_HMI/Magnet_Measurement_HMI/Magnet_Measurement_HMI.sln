@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# TcXaeShell Solution File, Format Version 11.00
+VisualStudioVersion = 15.0.28307.1300
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FE7A1B72-C5B7-4D7C-BB7D-76384D4DE8E1}") = "Magnet_Measurement_HMI", "Magnet_Measurement_HMI\Magnet_Measurement_HMI.hmiproj", "{6F57D3D7-3246-46D7-B0A0-1DEF4078DF0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|TwinCAT HMI = Debug|TwinCAT HMI
+		Release|TwinCAT HMI = Release|TwinCAT HMI
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F57D3D7-3246-46D7-B0A0-1DEF4078DF0D}.Debug|TwinCAT HMI.ActiveCfg = Debug|TwinCAT HMI
+		{6F57D3D7-3246-46D7-B0A0-1DEF4078DF0D}.Debug|TwinCAT HMI.Build.0 = Debug|TwinCAT HMI
+		{6F57D3D7-3246-46D7-B0A0-1DEF4078DF0D}.Release|TwinCAT HMI.ActiveCfg = Release|TwinCAT HMI
+		{6F57D3D7-3246-46D7-B0A0-1DEF4078DF0D}.Release|TwinCAT HMI.Build.0 = Release|TwinCAT HMI
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CDAA74DD-7990-48F5-A680-4F0AAC386028}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,22 @@
+{
+    "USERS": {
+        "__SystemAdministrator": {
+            "ALGORITHM": 1,
+            "ENABLED": true,
+            "PASSWORD": "e23001114fc2e5e173001447018282c8bca2c2fa58ac31ccc492616391b467fcc2626cdc75e3c19b9cf5c311e73017967a01b07fa052cd802a5d4a5afc2caca8",
+            "SALT": "rHJlIcEn8ouczFUyPDtqwyBfVBQ6Wx72PHaulf3J3q/8DLwguTDKw2kqANGrUuG75AgvWvdew7q3My9iXUEEOw=="
+        },
+        "__SystemGuest": {
+            "ALGORITHM": 0,
+            "ENABLED": true,
+            "PASSWORD": "",
+            "SALT": ""
+        },
+        "__SystemUser": {
+            "ALGORITHM": 0,
+            "ENABLED": true,
+            "PASSWORD": "",
+            "SALT": ""
+        }
+    }
+}

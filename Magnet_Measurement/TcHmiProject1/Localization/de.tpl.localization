@@ -1,0 +1,12 @@
+{
+  "$schema": "../../Packages/Beckhoff.TwinCAT.HMI.Framework.12.760.54/runtimes/native1.12-tchmi/Schema/LocalizationDescription.Schema.json",
+  "locale": "de",
+  "localizedText": {
+    "L_Startseite": "Startseite",
+    "L_Aufnahmeeinstellungen": "Aufnahmeeinstellungen",
+    "L_Signale": "Signale",
+    "L_Datenbank": "Datenbank",
+    "L_Metadaten": "Metadaten",
+    "L_Eventslogger": "Eventslogger"
+  }
+}
