@@ -20,6 +20,9 @@
     <Compile Include="DUTs\ST_Data.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\ST_HMI_Plot_Array.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\ST_Masurdata.TcDUT">
       <SubType>Code</SubType>
     </Compile>

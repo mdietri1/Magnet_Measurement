@@ -10,7 +10,7 @@ VAR_GLOBAL
 	gl_current_effective_raw_prime AT %I* : UINT := 3800; //Effektivwert Stromstärke Primärspule Rohwert
 	gl_current_periode_raw_prime AT %I* : UINT := 20; //Periode Stromstärkesignal Primärspule Rohwert
 	//Sekundärspule
-	gl_voltage_effective_raw_secondary AT %I* : UINT := 15000; //Effektivwert Spannung Sekundärspule Rohwert
+	gl_voltage_effective_raw_secondary AT %I* : UINT := 20546; //Effektivwert Spannung Sekundärspule Rohwert
 	gl_voltage_periode_raw_secondary AT  %I* : UINT := 20; //Periode Spannungsignal Sekundärspule Rohwert
 	gl_current_effective_raw_secondary AT %I* : UINT := 3800; //Effektivwert Stromstärke Sekundärspule Rohwert
 	gl_current_periode_raw_secondary AT %I* : UINT := 20; //Periode Stromstärkesignal Sekundärspule Rohwert

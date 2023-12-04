@@ -15,6 +15,13 @@ VAR
 	power_prime : REAL; //Leistung Primärspule W
 	power_secondary : REAL; //Leistung Sekundärspule W
     
+	//Arrays zum Plotten für HMI
+	power_hmi_array : ARRAY[1..2,1..100] OF ST_HMI_Plot_Array;
+	//power_secondary_hmi_array : ARRAY[1..1,1..100] OF ST_HMI_Plot_Array;
+	i : INT := 1;
+    rand : DRAND; 
+    nrand: LREAL;
+	
 	fbGetCurTaskIdx  : GETCURTASKINDEX;
     ncycletime       : REAL;
 	nState: INT;	
@@ -66,20 +73,41 @@ END_VAR
     <Implementation>
       <ST><![CDATA[// Convert Data and get the raw data
 //Primärspule
+rand();
+nrand := rand.Num;
 voltage_effective_prime := UINT_TO_REAL(GVL_IO.gl_voltage_effective_raw_prime)/65535*20; //Map UINT range of 0:65535 to +-10V 
 voltage_frequency_prime := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw_prime)/1000); //convert ms to S and get Frequency from Period
 current_effective_prime := UINT_TO_REAL(GVL_IO.gl_current_effective_raw_prime)/65535*20; //Map UINT range of 0:65535 to +-10V 
 current_frequency_prime := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw_prime)/1000); //convert ms to S and get Frequency from Period
-power_prime := voltage_effective_prime * current_effective_prime;
+power_prime := voltage_effective_prime * current_effective_prime + nrand/3;
 //Sekundärspule
 voltage_effective_secondary := UINT_TO_REAL(GVL_IO.gl_voltage_effective_raw_secondary)/65535*20; //Map UINT range of 0:65535 to +-10V 
 voltage_frequency_secondary := 1/(UINT_TO_REAL(GVL_IO.gl_voltage_periode_raw_secondary)/1000); //convert ms to S and get Frequency from Period
 current_effective_secondary := UINT_TO_REAL(GVL_IO.gl_current_effective_raw_secondary)/65535*20; //Map UINT range of 0:65535 to +-10V 
 current_frequency_secondary := 1/(UINT_TO_REAL(GVL_IO.gl_current_periode_raw_secondary)/1000); //convert ms to S and get Frequency from Period
-power_secondary := voltage_effective_secondary * current_effective_secondary;
+power_secondary := voltage_effective_secondary * current_effective_secondary + nrand/2;
 
 fbGetCurTaskIdx();
 ncycletime := _TaskInfo[fbGetCurTaskIdx.index].CycleTime/10000;
+
+//HMI Plot Array befüllen
+IF (i <= 100) THEN
+	//power_prime_hmi_array[1,i].x := i*ncycletime;
+	//power_prime_hmi_array[1,i].y := power_prime;
+	//power_secondary_hmi_array[1,i].x := i*ncycletime;
+	//power_secondary_hmi_array[1,i].y := power_secondary;
+	power_hmi_array[1,i].x := i*ncycletime;
+	power_hmi_array[1,i].y := power_prime;
+	power_hmi_array[2,i].x := i*ncycletime;
+	power_hmi_array[2,i].y := power_secondary;
+	i := i +1;
+	ELSE
+		i := 1;
+END_IF
+//FOR i := 1 TO 100 DO
+//	power_prime_hmi_array[1,i].x := i;
+//	power_prime_hmi_array[1,i].x := i;
+//END_FOR//
 
 //Create timestamp
 fbGetSystemTime1(timeLoDW=>dwTimeLoDW,timeHiDW=>dwTimeHiDW);
@@ -195,6 +223,8 @@ END_CASE
     <LineIds Name="Log_Data_Buffer">
       <LineId Id="11" Count="0" />
       <LineId Id="848" Count="0" />
+      <LineId Id="999" Count="0" />
+      <LineId Id="994" Count="0" />
       <LineId Id="12" Count="1" />
       <LineId Id="15" Count="0" />
       <LineId Id="5" Count="0" />
@@ -203,6 +233,16 @@ END_CASE
       <LineId Id="855" Count="0" />
       <LineId Id="17" Count="1" />
       <LineId Id="16" Count="0" />
+      <LineId Id="920" Count="1" />
+      <LineId Id="1072" Count="1" />
+      <LineId Id="1075" Count="0" />
+      <LineId Id="1084" Count="1" />
+      <LineId Id="1087" Count="3" />
+      <LineId Id="1076" Count="0" />
+      <LineId Id="1079" Count="1" />
+      <LineId Id="1074" Count="0" />
+      <LineId Id="1069" Count="2" />
+      <LineId Id="924" Count="0" />
       <LineId Id="433" Count="4" />
       <LineId Id="113" Count="0" />
       <LineId Id="438" Count="0" />

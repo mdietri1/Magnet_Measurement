@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="ST_HMI_Plot_Array" Id="{fb88956f-2393-48f9-a952-fdd729c2942e}">
+    <Declaration><![CDATA[TYPE ST_HMI_Plot_Array :
+STRUCT
+	x : REAL := 0;
+	y : REAL := 0;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
