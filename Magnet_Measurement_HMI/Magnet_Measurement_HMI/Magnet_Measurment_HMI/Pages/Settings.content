@@ -56,7 +56,7 @@
 </script>
 
 </div>
-<div id="TcHmiFileExplorer" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiFileExplorer" data-tchmi-height="400" data-tchmi-height-unit="px" data-tchmi-left="336" data-tchmi-left-unit="px" data-tchmi-top="77" data-tchmi-top-unit="px" data-tchmi-width="650" data-tchmi-width-unit="px">
+<div id="TcHmiFileExplorer" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiFileExplorer" data-tchmi-height="400" data-tchmi-height-unit="px" data-tchmi-left="336" data-tchmi-left-unit="px" data-tchmi-top="77" data-tchmi-top-unit="px" data-tchmi-width="650" data-tchmi-width-unit="px" data-tchmi-root="" data-tchmi-path="">
 </div>
 </div>
 </div>

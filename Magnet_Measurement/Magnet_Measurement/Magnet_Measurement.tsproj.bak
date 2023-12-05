@@ -38,7 +38,13 @@
 			</Settings>
 			<Licenses>
 				<Target>
+					<ManualSelect>{ADDFAE21-8CFE-4AF3-9F46-29C36F985936}</ManualSelect>
+					<ManualSelect>{FDE02854-39A7-440C-9EAE-C234A16A3CED}</ManualSelect>
+					<ManualSelect>{D58728E0-7762-4145-8A93-80D55E0453A6}</ManualSelect>
 					<ManualSelect>{92583661-35AE-45CE-BD4F-C35BFE16F07E}</ManualSelect>
+					<ManualSelect>{27326EE5-AB30-4084-B15B-8CCA96CCBF0B}</ManualSelect>
+					<ManualSelect>{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</ManualSelect>
+					<ManualSelect>{3DDCAB25-BF0E-412C-A721-DC77C1B8099C}</ManualSelect>
 				</Target>
 			</Licenses>
 			<Tasks>
@@ -49,7 +55,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{36F01E52-3611-4757-8663-DBE501F075DD}" Name="Magnet_Measurement" PrjFilePath="Magnet_Measurement\Magnet_Measurement.plcproj" TmcFilePath="Magnet_Measurement\Magnet_Measurement.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{BDF26177-71D4-ECF7-7DB7-4B3BBF89A590}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{90AF5116-8BFD-307D-3061-ED904F31D6A1}">
 					<Name>Magnet_Measurement Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">

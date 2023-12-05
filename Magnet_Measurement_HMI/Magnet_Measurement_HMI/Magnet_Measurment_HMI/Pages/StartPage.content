@@ -10,5 +10,24 @@
 </div>
 <div id="TcHmiToggleButton" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiToggleButton" data-tchmi-height="50" data-tchmi-height-unit="px" data-tchmi-left="21" data-tchmi-left-unit="px" data-tchmi-text="Start Record" data-tchmi-top="140" data-tchmi-top-unit="px" data-tchmi-width="250" data-tchmi-width-unit="px" data-tchmi-word-wrap="true" data-tchmi-text-font-size="20">
 </div>
+<div id="TcHmiScopeControl" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiScopeControl.TcHmiScopeControl" data-tchmi-height="400" data-tchmi-height-unit="px" data-tchmi-left="61" data-tchmi-left-unit="px" data-tchmi-top="229" data-tchmi-top-unit="px" data-tchmi-width="750" data-tchmi-width-unit="px" data-tchmi-server-interval="20" data-tchmi-chart-color-source="Theme" data-tchmi-enable-record-controls="true" data-tchmi-enable-show-trigger-window="false">
+
+<script data-tchmi-target-attribute="data-tchmi-scope-config" type="application/json">
+{
+  "name": "ScopeConfigHMI",
+  "chart": "YT Chart"
+}
+</script>
+</div>
+<div id="TcHmiToggleSwitch_1" data-tchmi-type="TcHmi.Controls.Beckhoff.TcHmiToggleSwitch" data-tchmi-height="109" data-tchmi-height-unit="px" data-tchmi-left="357" data-tchmi-left-unit="px" data-tchmi-text="Label" data-tchmi-top="44" data-tchmi-top-unit="px" data-tchmi-width="235" data-tchmi-width-unit="px" data-tchmi-toggle-state="Normal">
+</div>
+<div id="TcHmiPopup" data-tchmi-type="TcHmi.Controls.System.TcHmiPopup" data-tchmi-height="500" data-tchmi-height-unit="px" data-tchmi-left="30" data-tchmi-left-unit="px" data-tchmi-top="209" data-tchmi-top-unit="px" data-tchmi-width="500" data-tchmi-width-unit="px">
+
+<script data-tchmi-target-attribute="data-tchmi-target-file" type="application/json">
+{
+  "path": "Pages/StartPage.content"
+}
+</script>
+</div>
 </div>
 </div>
