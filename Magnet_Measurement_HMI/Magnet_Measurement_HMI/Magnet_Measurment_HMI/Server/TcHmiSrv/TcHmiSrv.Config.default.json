@@ -3167,6 +3167,16 @@
             },
             "USEMAPPING": true
         },
+        "PLC1.Log_Data_Buffer.write_meta": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::Log_Data_Buffer::write_meta",
+            "SCHEMA": {
+                "$ref": "tchmi:general#/definitions/BOOL"
+            },
+            "USEMAPPING": true
+        },
         "RefreshDefinitions": {
             "ACCESS": 3,
             "DOMAIN": "TcHmiSrv",
@@ -8957,6 +8967,7 @@
                 "PLC1.Log_Data_Buffer.power_secondary": 3,
                 "PLC1.Log_Data_Buffer.power_secondary_hmi_array": 3,
                 "PLC1.Log_Data_Buffer.stData.0.0": 3,
+                "PLC1.Log_Data_Buffer.write_meta": 3,
                 "SetLocale": 3,
                 "SubscribeEvents": 3,
                 "TcHmiEcDiagnostics.Diagnostics": 1,

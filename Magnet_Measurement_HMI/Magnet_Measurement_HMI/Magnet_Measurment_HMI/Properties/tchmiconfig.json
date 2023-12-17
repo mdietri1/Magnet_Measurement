@@ -195,6 +195,12 @@
         "type": "tchmi:framework#/definitions/TcHmi.Functions.BaseTemplate.AffectedControlList",
         "persist": true,
         "readonly": true
+      },
+      "measurementname": {
+        "value": "",
+        "type": "tchmi:general#/definitions/String",
+        "persist": false,
+        "readonly": false
       }
     },
     "themedResources": {
@@ -423,7 +429,7 @@
     }
   ],
   "systemKeyboard": {
-    "providerName": "",
+    "providerName": "Beckhoff.TcHmiKeyboard",
     "projectKeyboardMapping": {
       "de": {
         "text": "KeyboardLayouts/German - compact.keyboard.json",
