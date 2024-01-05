@@ -6,7 +6,7 @@
     "L_Signals": "Signals",
     "L_Settings": "Einstellungen",
     "L_Database": "Database",
-    "L_Metadata": "Metadata",
+    "L_Metadata": "Metadaten",
     "L_Events": "Meldungen",
     "L_EtherCATDiagnostics": "EtherCAT Diagnostics",
     "LeistungPime": "Leistung Primärspule",
@@ -46,6 +46,7 @@
     "L_periodic_dropout": "Periodischer Dropout",
     "L_strong_seam_collapse": "Starke Nahtzusammenbruch",
     "L_incomplete_penetration": "unvollständige Penetration",
-    "L_write_metadata": "Schreibe Metadaten"
+    "L_write_metadata": "Schreibe Metadaten",
+    "L_Measurmentdata": "Messdaten"
   }
 }

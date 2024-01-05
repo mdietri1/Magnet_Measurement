@@ -3,14 +3,14 @@
   <DUT Name="ST_Masurdata" Id="{772b0d79-4d5e-4f80-a6bf-2770092bfe08}">
     <Declaration><![CDATA[TYPE ST_Masurdata :
 STRUCT
-	id: INT;
+	id: LINT;
 	time2: REAL;
 	primary_power: REAL;
 	secondary_power: REAL;
 	phase_shift: REAL;
 	frequency: REAL;
 	flux_density: REAL;
-	Meta_id: INT;
+	Meta_id: LINT;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

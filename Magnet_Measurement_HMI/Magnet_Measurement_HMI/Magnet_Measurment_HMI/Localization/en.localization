@@ -46,6 +46,7 @@
     "L_periodic_dropout": "Periodic Dropout",
     "L_strong_seam_collapse": "Strong Seamcollapse",
     "L_incomplete_penetration": "incomplete Penetration",
-    "L_write_metadata": "Write Metadata"
+    "L_write_metadata": "Write Metadata",
+    "L_Measurmentdata": "Measurement Data"
   }
 }

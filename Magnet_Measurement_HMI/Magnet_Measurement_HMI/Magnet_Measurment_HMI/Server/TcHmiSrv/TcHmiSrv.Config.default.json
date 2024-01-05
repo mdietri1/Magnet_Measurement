@@ -28,6 +28,30 @@
     "DEFAULTTIMEZONE": "client",
     "DEFAULTUSERGROUP": "__SystemUsers",
     "DEFINITIONS": {
+        "PLC1.ARRAY_0..1851_OF-ST_Masurdata": {
+            "items": {
+                "$ref": "#/definitions/PLC1.ST_Masurdata"
+            },
+            "maxItems": 1852,
+            "minItems": 1852,
+            "type": "array"
+        },
+        "PLC1.ARRAY_0..20000_OF-ST_Masurdata": {
+            "items": {
+                "$ref": "#/definitions/PLC1.ST_Masurdata"
+            },
+            "maxItems": 20001,
+            "minItems": 20001,
+            "type": "array"
+        },
+        "PLC1.ARRAY_0..200_OF-ST_Metadata": {
+            "items": {
+                "$ref": "#/definitions/PLC1.ST_Metadata"
+            },
+            "maxItems": 201,
+            "minItems": 201,
+            "type": "array"
+        },
         "PLC1.ARRAY_1..1_1..100_OF-ST_HMI_Plot_Array": {
             "displayAsMatrix": 2,
             "items": {
@@ -92,7 +116,7 @@
                 "Meta_id": {
                     "allOf": [
                         {
-                            "$ref": "tchmi:general#/definitions/INT"
+                            "$ref": "tchmi:general#/definitions/LINT"
                         },
                         {
                             "propertyOrder": 8
@@ -122,7 +146,7 @@
                 "id": {
                     "allOf": [
                         {
-                            "$ref": "tchmi:general#/definitions/INT"
+                            "$ref": "tchmi:general#/definitions/LINT"
                         },
                         {
                             "propertyOrder": 1
@@ -166,6 +190,368 @@
                         },
                         {
                             "propertyOrder": 2
+                        }
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "PLC1.ST_Metadata": {
+            "properties": {
+                "Id": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/LINT"
+                        },
+                        {
+                            "propertyOrder": 1
+                        }
+                    ]
+                },
+                "arc_dynamic": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 18
+                        }
+                    ]
+                },
+                "bad": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 31
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "carried_out": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 3
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "core_dimension": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 24
+                        }
+                    ]
+                },
+                "distance_a_l": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 13
+                        }
+                    ]
+                },
+                "distance_magnet_pole": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 21
+                        }
+                    ]
+                },
+                "edge_pre": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 9
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "focal_position": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 12
+                        }
+                    ]
+                },
+                "frequency": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 19
+                        }
+                    ]
+                },
+                "incomplite_penetration": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 34
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "joint_pre": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 6
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "laser_power": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 11
+                        }
+                    ]
+                },
+                "magnet_pole_type": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 23
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "magnet_pole_width": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 22
+                        }
+                    ]
+                },
+                "measurementname": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 2
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "normal": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 26
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "opening_angel": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 8
+                        }
+                    ]
+                },
+                "periodic_dropout": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 32
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "root_face": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 7
+                        }
+                    ]
+                },
+                "sporadic_dropout": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 30
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "sporadic_seam_collapse": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 29
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "steel": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 5
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "stickout": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 17
+                        }
+                    ]
+                },
+                "strong_seam_collapse": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 33
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "thickness": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 4
+                        }
+                    ]
+                },
+                "undercut": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 28
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "uniform_root_overcome": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 27
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "very_good": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 25
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
+                        }
+                    ]
+                },
+                "voltage_ac_power_source": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 20
+                        }
+                    ]
+                },
+                "welding_speed": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 10
+                        }
+                    ]
+                },
+                "wire_diameter": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 15
+                        }
+                    ]
+                },
+                "wire_feeding_rate": {
+                    "allOf": [
+                        {
+                            "$ref": "tchmi:general#/definitions/REAL"
+                        },
+                        {
+                            "propertyOrder": 14
+                        }
+                    ]
+                },
+                "wire_type": {
+                    "allOf": [
+                        {
+                            "maxLength": 255,
+                            "propertyOrder": 16
+                        },
+                        {
+                            "$ref": "tchmi:general#/definitions/String"
                         }
                     ]
                 }
@@ -3113,6 +3499,26 @@
                         "$ref": "tchmi:general#/definitions/String"
                     }
                 ]
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.Log_Data_Buffer.arrRecords_masur": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::Log_Data_Buffer::arrRecords_masur",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.ARRAY_0..1851_OF-ST_Masurdata"
+            },
+            "USEMAPPING": true
+        },
+        "PLC1.Log_Data_Buffer.arrRecords_meta": {
+            "ACCESS": 3,
+            "DOMAIN": "ADS",
+            "DYNAMIC": true,
+            "MAPPING": "PLC1::Log_Data_Buffer::arrRecords_meta",
+            "SCHEMA": {
+                "$ref": "tchmi:server#/definitions/PLC1.ARRAY_0..200_OF-ST_Metadata"
             },
             "USEMAPPING": true
         },
@@ -8961,6 +9367,9 @@
                 "PLC1.GVL_Meta.wire_diameter": 3,
                 "PLC1.GVL_Meta.wire_feeding_rate": 3,
                 "PLC1.GVL_Meta.wire_type": 3,
+                "PLC1.Log_Data_Buffer.arrRecords": 3,
+                "PLC1.Log_Data_Buffer.arrRecords_masur": 3,
+                "PLC1.Log_Data_Buffer.arrRecords_meta": 3,
                 "PLC1.Log_Data_Buffer.power_hmi_array": 3,
                 "PLC1.Log_Data_Buffer.power_prime": 3,
                 "PLC1.Log_Data_Buffer.power_prime_hmi_array": 3,

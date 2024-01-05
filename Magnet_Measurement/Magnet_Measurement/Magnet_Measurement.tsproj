@@ -55,7 +55,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{36F01E52-3611-4757-8663-DBE501F075DD}" Name="Magnet_Measurement" PrjFilePath="Magnet_Measurement\Magnet_Measurement.plcproj" TmcFilePath="Magnet_Measurement\Magnet_Measurement.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{90AF5116-8BFD-307D-3061-ED904F31D6A1}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="Magnet_Measurement\Magnet_Measurement.tmc" TmcHash="{181BCBB6-F2F9-5FB4-0953-57D237B20AA7}">
 					<Name>Magnet_Measurement Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="1">

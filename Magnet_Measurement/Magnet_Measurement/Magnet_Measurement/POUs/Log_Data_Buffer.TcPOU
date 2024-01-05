@@ -40,6 +40,19 @@ VAR
 	write_meta_error : BOOL; 
 	meta_data_written_index : INT := 1;
 	
+	//for reading masur data
+	fb_PLCDBRead: FB_PLCDBReadEvt(sNetID:='', tTimeout := T#10S);
+	arrColumns_masur: ARRAY[0..7] OF STRING(50) := ['id','time2','primary_power','secondary_power','phase_shift','frequency','flux_density','Meta_id'];
+	arrRecords_masur: ARRAY[0..20000] OF ST_Masurdata;
+	read_masur: BOOL := FALSE;
+	tcMessage_read_masur : I_TcMessage;
+	
+	//for reading meta data 
+	arrColumns_meta: ARRAY[0..33] OF STRING(50) := ['Id','measurementname','carried_out','thickness','steel','joint_pre','root_face','opening_angel','edge_pre','welding_speed','laser_power','focal_position','distance_a_l','wire_feeding_rate','wire_diameter','wire_type','stickout','arc_dynamic','frequency','voltage_ac_power_source','distance_magnet_pole','magnet_pole_width','magnet_pole_type','core_dimension','very_good','normal','uniform_root_overcome','undercut','sporadic_seam_collapse','sporadic_dropout','bad','periodic_dropout','strong_seam_collapse','incomplite_penetration'];
+	arrRecords_meta: ARRAY[0..200] OF ST_Metadata;
+	read_meta: BOOL := FALSE;
+	tcMessage_read_meta : I_TcMessage;
+	
 	//for insert masur samples
 	fbPLCDBCmd: FB_PLCDBCmdEvt(sNetID:= '', tTimeout:= T#19S);
 	aPara: ARRAY [0..7] OF ST_ExpParameter;	
@@ -67,6 +80,10 @@ VAR
 	
 	// Eventlogger
 	ipTcResult: Tc3_Database.I_TcMessage;
+
+
+
+
 
 END_VAR
 ]]></Declaration>
@@ -154,7 +171,54 @@ CASE nState OF
 			write_meta_status := fb_Start_Log.bBusy;
 			write_meta_error := fb_Start_Log.bError;
 		END_IF
-		
+		// Read Database Masur
+		IF read_masur THEN
+			IF fb_PLCDBRead.ReadStruct(
+				hDBID:= 1, 
+				sTableName:= 'masur', 
+				pColumnNames:= ADR(arrColumns_masur), 
+				cbColumnNames:= SIZEOF(arrColumns_masur), 
+				sOrderByColumn:= 'id', 
+				eOrderType:= E_OrderType.ASC, 
+				nStartIndex:= 0, 
+				nRecordCount:= 1852, 
+				pData:= ADR(arrRecords_masur), 
+				cbData:= SIZEOF(arrRecords_masur))
+			THEN
+				IF fb_PLCDBRead.bError THEN
+					tcMessage_read_masur := fb_PLCDBRead.ipTcResult;
+					nState := 255; // ERROR
+					read_masur := FALSE;
+				ELSE
+					nState := 1;
+					read_masur := FALSE;
+				END_IF
+			END_IF;
+		END_IF
+		// Read Database Meta
+		IF read_meta THEN
+			IF fb_PLCDBRead.ReadStruct(
+				hDBID:= 1, 
+				sTableName:= 'Meta', 
+				pColumnNames:= ADR(arrColumns_meta), 
+				cbColumnNames:= SIZEOF(arrColumns_meta), 
+				sOrderByColumn:= 'Id', 
+				eOrderType:= E_OrderType.ASC, 
+				nStartIndex:= 0, 
+				nRecordCount:= 200, 
+				pData:= ADR(arrRecords_meta), 
+				cbData:= SIZEOF(arrRecords_meta))
+			THEN
+				IF fb_PLCDBRead.bError THEN
+					tcMessage_read_meta := fb_PLCDBRead.ipTcResult;
+					nState := 255; // ERROR
+					read_meta := FALSE;
+				ELSE
+					nState := 1;
+					read_meta := FALSE;
+				END_IF
+			END_IF;
+		END_IF
 	2://Recording		
 		bRecording := TRUE;
 		//Fill buffer
@@ -270,7 +334,21 @@ END_CASE
       <LineId Id="728" Count="0" />
       <LineId Id="730" Count="0" />
       <LineId Id="512" Count="0" />
-      <LineId Id="361" Count="2" />
+      <LineId Id="361" Count="0" />
+      <LineId Id="1187" Count="0" />
+      <LineId Id="1172" Count="9" />
+      <LineId Id="1161" Count="0" />
+      <LineId Id="1193" Count="1" />
+      <LineId Id="1196" Count="0" />
+      <LineId Id="1198" Count="0" />
+      <LineId Id="1202" Count="0" />
+      <LineId Id="1199" Count="2" />
+      <LineId Id="1197" Count="0" />
+      <LineId Id="1192" Count="0" />
+      <LineId Id="1159" Count="0" />
+      <LineId Id="1289" Count="22" />
+      <LineId Id="1160" Count="0" />
+      <LineId Id="362" Count="1" />
       <LineId Id="365" Count="0" />
       <LineId Id="784" Count="0" />
       <LineId Id="366" Count="1" />
